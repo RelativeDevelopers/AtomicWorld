@@ -1,0 +1,31 @@
+# AtomicWorld como paquete de Python, para que otros proyectos lo usen sin copiar el código.
+# La web (repositorio atomicworld_web) lo instala con:
+#     pip install -e ../../AtomicWorld                                          (en tu ordenador)
+#     pip install "atomicworld @ git+https://github.com/aluskabarbera/AtomicWorld.git"   (en el servidor)
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "atomicworld"
+dynamic = ["version"]
+description = "De la molécula a los quarks, y de los quarks al Big Bang."
+readme = "README.md"
+requires-python = ">=3.10"
+authors = [{ name = "Alexei Barberà Roca", email = "relativedevelopers@gmail.com" }]
+dependencies = []
+
+[project.optional-dependencies]
+console = ["colorama>=0.4.6"]
+scene = ["numpy>=1.26"]                  # atomicworld.scene: física de los visores 3D
+test = ["pytest>=8"]
+
+[tool.setuptools.dynamic]
+version = { attr = "atomicworld.__version__" }
+
+[tool.setuptools.packages.find]
+include = ["atomicworld*"]
+
+[tool.setuptools.package-data]
+atomicworld = ["data/*.json", "data/names/*.json"]

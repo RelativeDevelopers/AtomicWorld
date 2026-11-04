@@ -1,0 +1,9 @@
+colorama>=0.4.6
+pytest>=8.0
+# Visor 3D (python -m viewer, u opción 2 de la tabla periódica):
+numpy>=1.26
+moderngl>=5.10
+pyglet>=2.0
+pillow>=10.1
+# Solo para regenerar los datos con tools/build_data.py:
+# mendeleev>=0.17

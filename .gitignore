@@ -1,0 +1,17 @@
+# Entorno virtual (se reinstala con pip install -r requirements.txt)
+.venv/
+venv/
+
+# Archivos que Python genera solo
+__pycache__/
+*.pyc
+*.egg-info/
+.pytest_cache/
+
+# Resultado de python main.py --build (se genera al publicar)
+dist/
+build/
+
+# Configuración local y claves
+.env
+.vscode/

@@ -1,0 +1,399 @@
+{
+  "_meta": {
+    "name": "English",
+    "decimal_separator": ".",
+    "thousands_separator": ","
+  },
+  "units": {
+    "proton": {
+      "one": "{n} proton",
+      "other": "{n} protons"
+    },
+    "neutron": {
+      "one": "{n} neutron",
+      "other": "{n} neutrons"
+    },
+    "electron": {
+      "one": "{n} electron",
+      "other": "{n} electrons"
+    },
+    "minute": {
+      "one": "{n} minute",
+      "other": "{n} minutes"
+    },
+    "hour": {
+      "one": "{n} hour",
+      "other": "{n} hours"
+    },
+    "day": {
+      "one": "{n} day",
+      "other": "{n} days"
+    },
+    "year": {
+      "one": "{n} year",
+      "other": "{n} years"
+    }
+  },
+  "viewer": {
+    "title": "AtomicWorld — 3D atom",
+    "levels": {
+      "atom": "{element}-{a} atom",
+      "nucleus": "{element}-{a} nucleus",
+      "proton": "Inside a proton (uud)",
+      "neutron": "Inside a neutron (udd)"
+    },
+    "hud": {
+      "level": "Level {n} · {name}",
+      "visible": "Visible width ≈ {width}  ({sci} m)",
+      "distance": "Distance to the object: {d}",
+      "speed": "Speed: {v}/s  ×{mult}",
+      "time": "Time: {t}",
+      "mode_didactic": "Mode: DIDACTIC  [Tab]",
+      "mode_realistic": "Mode: REALISTIC  [Tab]",
+      "help": [
+        "Click: capture mouse · Esc: release · WASD: move · Space/Ctrl: up/down · Q/E: roll · Shift: boost · Wheel: speed",
+        "Enter: go deeper · Backspace: go back up · N/P: next/previous element · [ ]: isotope · O: subshell · I: orbital · Tab: mode · L: language · H: help"
+      ],
+      "entering": "Entering: {name}",
+      "leaving": "Back to: {name}",
+      "click": "Click to control the ship",
+      "now_didactic": "DIDACTIC mode",
+      "now_realistic": "REALISTIC mode",
+      "language": "Language: English",
+      "autopilot_down": "Autopilot: going into the {target}",
+      "autopilot_up": "Autopilot: going back up",
+      "target_nucleus": "nucleus",
+      "target_nucleon": "nearest nucleon",
+      "target_quark": "nearest quark",
+      "end_of_journey": "End of the journey: quarks are elementary particles",
+      "already_outside": "You are already outside the atom",
+      "loading": "Building {name}…",
+      "showing_subshell": "Subshell {name} (O: next)",
+      "showing_all": "All the electrons",
+      "showing_orbital": "Orbital {name} (I: next)"
+    },
+    "depth_marks": {
+      "atom": "Atom  ~100 pm",
+      "nucleus": "Nucleus  ~5 fm",
+      "proton": "Proton  0.84 fm",
+      "quarks": "Quarks  <10⁻¹⁸ m"
+    },
+    "card": {
+      "element": "{symbol} · {name} · Z = {z}  [N/P]",
+      "isotope": "{symbol}-{a}: {protons} + {neutrons} · isotope {i} of {total}  [ ]",
+      "natural": "{abundance} % in nature",
+      "stable": "stable",
+      "half_life": "half-life {t}",
+      "half_life_unknown": "radioactive, half-life not measured",
+      "unknown": "unbound or never observed decaying",
+      "decay": "decays by {modes}"
+    },
+    "atom": {
+      "nucleus_title": "{element} nucleus: {protons} + {neutrons}",
+      "nucleus_distance": "Distance to the nucleus: {d} pm",
+      "nucleus_explanation": [
+        "Radius ≈ {r} fm: the atom is ~{ratio} times bigger.",
+        "Almost all the mass of the atom is here. Fly closer (or press Enter) to go in."
+      ],
+      "cloud_title": "Electron cloud · {electrons}",
+      "cloud_detail": "Configuration: {config}",
+      "zeff": "Effective charge (Slater): {zeff}",
+      "cloud_explanation": [
+        "Each dot is a likely position of an electron, not a path: electrons do not orbit.",
+        "Colours: one per shell, n = 1 (orange) to n = 7. p, d and f orbitals show their lobes. O: one subshell at a time.",
+        "Electrons are elementary particles: there is nothing inside them."
+      ],
+      "cloud_explanation_realistic": [
+        "Isolated atom in its ground state: averaged over all orientations, its density is spherical.",
+        "Electrons are elementary particles: there is nothing inside them."
+      ],
+      "time": "Stationary orbitals: the density does not change (the twinkling = successive measurements)",
+      "subshell_title": "Subshell {name} · {electrons}",
+      "subshell_zeff": "Effective charge (Slater): {zeff} · mean radius ≈ {r} pm",
+      "shape": {
+        "s": "s orbital: a sphere (with {nodes} spherical nodes inside).",
+        "p": "p orbitals: two lobes (a figure of eight) along x, y or z.",
+        "d": "d orbitals: four-leaf clovers, and dz²: two lobes with a ring around the middle.",
+        "f": "f orbitals: six or eight lobes; the most complex shapes in the ground states."
+      },
+      "hund": "Hund's rule: electrons first take empty orbitals (↑), then pair up (↑↓).",
+      "full": "Full subshell: its orbitals add up to a perfect sphere (Unsöld's theorem).",
+      "partial": "Partly filled: several states are equally good; this is one of them.",
+      "realistic_subshell": "Realistic mode: averaged over orientations, every subshell is spherical.",
+      "orbital_title": "Orbital {name} · {electrons}",
+      "orbital_colors": "Each orbital in its own colour. I: one orbital at a time."
+    },
+    "nucleus": {
+      "title": "{protons} + {neutrons} · radius ≈ {r} fm",
+      "detail": "Density ≈ {rho} kg/m³",
+      "explanation": [
+        "The strong force beats the electric repulsion between the {protons}.",
+        "Chance of finding an electron in here: ~{p_in}",
+        "A teaspoon of nuclear matter would weigh ~1,000 million tonnes."
+      ],
+      "explanation_hydrogen": [
+        "The hydrogen-1 nucleus is a single proton.",
+        "Chance of finding the electron in here: ~{p_in}"
+      ],
+      "explanation_realistic": [
+        "Density of nuclear matter (Woods–Saxon profile): nucleons are quantum",
+        "waves and have no definite position."
+      ],
+      "unstable": "Unstable nucleus: it {decay}.",
+      "strong_lines": "Green lines: strong nuclear force (range ~2 fm).",
+      "go_in": "fly closer (or press Enter) to go in",
+      "proton": {
+        "title": "Proton",
+        "detail": "charge +1 · {mass} MeV/c² · quarks u u d",
+        "explanation": [
+          "3 valence quarks (uud) held together by gluons.",
+          "Only ~1 % of its mass comes from the quarks: the rest is energy",
+          "of the strong interaction (E = mc²)."
+        ]
+      },
+      "neutron": {
+        "title": "Neutron",
+        "detail": "charge 0 · {mass} MeV/c² · quarks u d d",
+        "explanation": [
+          "3 valence quarks (udd). A free neutron decays in ~15 minutes;",
+          "inside a stable nucleus it lasts forever.",
+          "Without neutrons, the electric repulsion would push the protons apart."
+        ]
+      },
+      "time": "1 s on screen ≈ 10⁻²² s (a nucleon crosses the nucleus in ~10⁻²² s)"
+    },
+    "nucleon": {
+      "proton": "Proton",
+      "neutron": "Neutron",
+      "title": "{name}: valence quarks {content} + parton sea",
+      "colors_now": "Colours now: {colors}",
+      "realistic_detail": "1 s on screen ≈ 10⁻²⁴ s",
+      "up": {
+        "title": "Up quark (u)",
+        "detail": "charge +2/3 · mass ≈ {mass} MeV/c² · colour: {color}"
+      },
+      "down": {
+        "title": "Down quark (d)",
+        "detail": "charge −1/3 · mass ≈ {mass} MeV/c² · colour: {color}"
+      },
+      "quark_explanation": [
+        "Fundamental particle: no known structure (< 10⁻¹⁸ m).",
+        "End of the journey: there is nothing 'inside' a quark.",
+        "Confinement: if you pull a quark away, the gluon tube breaks",
+        "and creates new quark–antiquark pairs."
+      ],
+      "explanation": [
+        "Red/green/blue = colour charge (a label, not a real colour).",
+        "The 3 quarks add up to 'white'. Travelling gluons swap the colour",
+        "between them. Background dots: gluons and sea pairs.",
+        "The quarks are ~1 % of the mass; the rest is energy (E = mc²)."
+      ],
+      "explanation_realistic": [
+        "Parton fog: quarks, antiquarks and gluons that appear and",
+        "disappear. You cannot point at each quark: only the probability",
+        "of finding them (charge radius 0.84 fm)."
+      ],
+      "colors": {
+        "r": "red",
+        "g": "green",
+        "b": "blue"
+      },
+      "time": "1 s on screen ≈ 10⁻²⁴ s (light crosses a proton in ~3×10⁻²⁴ s)"
+    },
+    "decay": {
+      "A": "α",
+      "B-": "β⁻",
+      "B+": "β⁺",
+      "e+": "β⁺",
+      "EC": "electron capture",
+      "SF": "spontaneous fission",
+      "p": "proton emission",
+      "2p": "emission of 2 protons",
+      "3p": "emission of 3 protons",
+      "n": "neutron emission",
+      "2n": "emission of 2 neutrons",
+      "3n": "emission of 3 neutrons",
+      "4n": "emission of 4 neutrons",
+      "2B-": "double β⁻",
+      "2B+": "double β⁺",
+      "IT": "isomeric transition",
+      "cluster": "emission of a {nucleus} nucleus",
+      "joiner": " or "
+    }
+  },
+  "console": {
+    "menu": {
+      "back": "Back",
+      "select": "Please select an option: ",
+      "what": "What do you want to do? ",
+      "invalid": "Invalid option."
+    },
+    "input": {
+      "whole_number": "Please enter a whole number ≥ {minimum}.",
+      "positive_number": "Please enter a number greater than 0.",
+      "between": "Please enter a number between {minimum} and {maximum}."
+    },
+    "language": {
+      "saved": "Language: English (saved for next time)"
+    },
+    "main": {
+      "exit": "Exit",
+      "table": "Periodic Table",
+      "model": "Standard Model",
+      "universe": "The First Three Minutes (Big Bang)",
+      "goodbye": "Until next time."
+    },
+    "table": {
+      "title": "Periodic Table",
+      "molecule": "Calculate the atoms of a molecule",
+      "explore": "Explore an atom in 3D"
+    },
+    "molecule": {
+      "intro": "Enter a chemical formula using element symbols, e.g. H2O, CO2, C6H12O6, Ca(OH)2",
+      "ask_formula": "Formula (empty to go back): ",
+      "ask_grams": "Physical weight in grams: ",
+      "molar_mass": "Molar mass",
+      "moles": "Moles",
+      "molecules": "Molecules",
+      "atoms": "Atoms",
+      "subatomic": "Subatomic World",
+      "protons": "Protons",
+      "neutrons": "Neutrons",
+      "electrons": "Electrons",
+      "quarks_in": "Quarks {quark} in protons: {protons}   in neutrons: {neutrons}",
+      "quark_mass": "Mass of the {quark} quarks: {mass} MeV/c²",
+      "mass_title": "Where does the mass come from?",
+      "mass_explanation": [
+        "The rest mass of the Up and Down quarks is only {pct} % of the mass",
+        "of the protons and neutrons. The other {rest} % is energy of the strong",
+        "interaction (gluons and confined quarks in motion), turned into mass: E = mc²."
+      ],
+      "average_note": "Neutrons are averaged over the natural isotopes of each element."
+    },
+    "explore": {
+      "missing": "The 3D viewer needs extra packages ({packages}).",
+      "install": "Install them with:  pip install -r requirements.txt",
+      "ask_element": "Element (name in any language, symbol or number; empty to go back): ",
+      "unknown_element": "Unknown element: {text}",
+      "known": "{count} known isotopes (mass numbers {first} to {last})",
+      "natural": "Found in nature:",
+      "none_natural": "None in nature: every isotope is radioactive and made artificially.",
+      "ask_isotope": "Mass number [Enter = {isotope}]: ",
+      "unknown_isotope": "{isotope} is not a known isotope (try {first}–{last}).",
+      "opening": "Opening {isotope} in a new window...",
+      "hint": "(Enter: go deeper · Backspace: go back up · H: help. You can keep using the menu.)"
+    },
+    "model": {
+      "title": "Standard Model",
+      "key": "key",
+      "option_bigbang": "Bit Big Bang (random bytes game)",
+      "option_particle": "Show the data of a particle",
+      "option_masses": "Mass converter (eV/c² ⇄ kg)",
+      "ask_particle": "Particle number or name (empty to go back): ",
+      "unknown_particle": "Unknown particle.",
+      "mass": "Mass",
+      "charge": "Charge",
+      "spin": "Spin",
+      "binary": "Binary",
+      "upper_limit": "Only an upper limit on its mass is known.",
+      "hypothetical": "Hypothetical: never observed and NOT part of the Standard Model."
+    },
+    "masses": {
+      "title": "Mass converter",
+      "option_table": "Show the mass of every particle in kg",
+      "option_convert": "Convert a mass between units",
+      "particle": "Particle",
+      "mass": "Mass",
+      "mass_kg": "Mass (kg)",
+      "mass_u": "Mass (u)",
+      "massless": "massless",
+      "footnote": "1 eV/c² = 1.602176634 × 10^-19 J / (299 792 458 m/s)² = 1.78266192 × 10^-36 kg (exact SI)",
+      "ask_value": "Mass value (empty to go back): ",
+      "unit": "Unit",
+      "compare": "= {electrons} electron masses = {protons} proton masses",
+      "closest": "Closest particle: {name} (your mass is {ratio} times its mass)"
+    },
+    "bigbang": {
+      "byte": "8 bits = 1 byte",
+      "original": "Original bits",
+      "matched_bytes": "Bytes that matched a particle:",
+      "matched_names": "Names of the matched particles:",
+      "leftover": " (+{count} leftover bits)",
+      "summary": "I have created {full} bytes{extra}; {found} matched a particle.",
+      "ask_bits": "Enter the number of bits you want to generate: ",
+      "option_time": "Show the time it took to generate each bit",
+      "transforms": {
+        "invert": "Swap zeros for ones, and vice versa",
+        "reverse": "Reverse the bit string",
+        "invert_reverse": "Swap zeros for ones and reverse the bit string"
+      },
+      "ask_option": "Enter the option you want to do: ",
+      "total_time": "Total: {total} ns — average: {average} ns per bit",
+      "bit_time": "Bit {i} ({bit}): {ns} ns",
+      "more": "... ({count} more)",
+      "invalid": "Option not valid, try again."
+    },
+    "universe": {
+      "menu_title": "The First Three Minutes — Big Bang nucleosynthesis",
+      "option_simulate": "Simulate our universe (measured values)",
+      "option_custom": "Change the laws of the universe",
+      "option_particles": "Particle by particle (random)",
+      "option_neutrinos": "How many neutrino species are there?",
+      "title": "The First Three Minutes",
+      "parameters": "η = {eta} baryons per photon · {species} neutrino species · neutron lifetime {tau} s",
+      "time": "Time",
+      "temperature": "Temperature",
+      "neutrons": "Neutrons",
+      "protons": "Protons",
+      "composition": "Composition by mass",
+      "frame": "Weinberg's frame {n}",
+      "event_names": {
+        "freeze_out": "Freeze-out",
+        "annihilation": "Annihilation",
+        "nucleosynthesis": "Nucleosynthesis"
+      },
+      "key_neutrons": "neutrons",
+      "key_protons": "protons (hydrogen)",
+      "key_deuterium": "deuterium",
+      "key_helium": "helium-4",
+      "result": "Result after the first hours",
+      "helium": "Helium-4   : {value} % of the mass   (observed {observed} %, full codes {standard} %)",
+      "hydrogen": "Hydrogen   : {value} % of the mass",
+      "deuterium": "Deuterium  : D/H = {value}   (observed {observed}; this model only gives the order of magnitude)",
+      "custom_intro": "Change the laws of your universe (press Enter to keep the real value):",
+      "ask_eta": "Baryons per photon η, × 10⁻¹⁰",
+      "ask_species": "Number of neutrino species",
+      "ask_tau": "Neutron lifetime in seconds",
+      "neutrinos_intro": [
+        "How many kinds of neutrino are there? Each extra species makes the universe",
+        "expand faster, neutrons freeze out earlier... and more helium is made."
+      ],
+      "species": "Species",
+      "helium_short": "Helium",
+      "compatible": "compatible with observations",
+      "lep": "Particle colliders (LEP, CERN, 1989) confirmed it: there are exactly 3.",
+      "ask_nucleons": "How many nucleons do you want in your universe? (e.g. 1000): ",
+      "capped": "Using 1,000,000 (more would take too long).",
+      "your_universe": "Your universe: {helium} helium nuclei and {hydrogen} hydrogen nuclei → {pct} % helium by mass.",
+      "run_again": "Run it again: with few nucleons chance matters a lot; with many, you always get ~25 %."
+    }
+  },
+  "errors": {
+    "empty_formula": "Enter a formula.",
+    "unexpected_character": "Unexpected character \"{char}\" at position {position}.",
+    "unmatched_closing": "A parenthesis is closed without being opened.",
+    "empty_parentheses": "There are empty parentheses.",
+    "nothing_to_multiply": "The number {number} has nothing before it to multiply.",
+    "zero_subscript": "A subscript can't be 0.",
+    "unclosed_parenthesis": "A parenthesis isn't closed.",
+    "unknown_symbols": "There is no element with the symbol {symbols}. Remember upper and lower case (Co is cobalt; CO is carbon and oxygen).",
+    "zero_molar_mass": "The molar mass of {formula} comes out as 0.",
+    "invalid_formula": "The formula isn't valid.",
+    "unknown_unit": "Unknown mass unit: {unit}."
+  },
+  "events": {
+    "freeze_out": "Weak interactions freeze out: n/p stops following equilibrium",
+    "annihilation": "Electrons and positrons annihilate, heating the photons",
+    "nucleosynthesis": "The deuterium bottleneck breaks: half the helium is made"
+  }
+}

@@ -1,0 +1,399 @@
+{
+  "_meta": {
+    "name": "Català",
+    "decimal_separator": ",",
+    "thousands_separator": "."
+  },
+  "units": {
+    "proton": {
+      "one": "{n} protó",
+      "other": "{n} protons"
+    },
+    "neutron": {
+      "one": "{n} neutró",
+      "other": "{n} neutrons"
+    },
+    "electron": {
+      "one": "{n} electró",
+      "other": "{n} electrons"
+    },
+    "minute": {
+      "one": "{n} minut",
+      "other": "{n} minuts"
+    },
+    "hour": {
+      "one": "{n} hora",
+      "other": "{n} hores"
+    },
+    "day": {
+      "one": "{n} dia",
+      "other": "{n} dies"
+    },
+    "year": {
+      "one": "{n} any",
+      "other": "{n} anys"
+    }
+  },
+  "viewer": {
+    "title": "AtomicWorld — àtom en 3D",
+    "levels": {
+      "atom": "Àtom {of_element}-{a}",
+      "nucleus": "Nucli {of_element}-{a}",
+      "proton": "Interior d'un protó (uud)",
+      "neutron": "Interior d'un neutró (udd)"
+    },
+    "hud": {
+      "level": "Nivell {n} · {name}",
+      "visible": "Amplada visible ≈ {width}  ({sci} m)",
+      "distance": "Distància a l'objecte: {d}",
+      "speed": "Velocitat: {v}/s  ×{mult}",
+      "time": "Temps: {t}",
+      "mode_didactic": "Mode: DIDÀCTIC  [Tab]",
+      "mode_realistic": "Mode: REALISTA  [Tab]",
+      "help": [
+        "Clic: capturar el ratolí · Esc: deixar-lo · WASD: moure · Espai/Ctrl: pujar/baixar · Q/E: girar · Shift: turbo · Roda: velocitat",
+        "Enter: baixar un nivell · Retrocés: pujar · N/P: element següent/anterior · [ ]: isòtop · O: subnivell · I: orbital · Tab: mode · L: idioma · H: ajuda"
+      ],
+      "entering": "Entrant: {name}",
+      "leaving": "Sortint a: {name}",
+      "click": "Fes clic per controlar la nau",
+      "now_didactic": "Mode DIDÀCTIC",
+      "now_realistic": "Mode REALISTA",
+      "language": "Idioma: català",
+      "autopilot_down": "Pilot automàtic: cap al {target}",
+      "autopilot_up": "Pilot automàtic: pujant",
+      "target_nucleus": "nucli",
+      "target_nucleon": "nucleó més proper",
+      "target_quark": "quark més proper",
+      "end_of_journey": "Final del viatge: els quarks són partícules elementals",
+      "already_outside": "Ja ets fora de l'àtom",
+      "loading": "Construint {name}…",
+      "showing_subshell": "Subnivell {name} (O: següent)",
+      "showing_all": "Tots els electrons",
+      "showing_orbital": "Orbital {name} (I: següent)"
+    },
+    "depth_marks": {
+      "atom": "Àtom  ~100 pm",
+      "nucleus": "Nucli  ~5 fm",
+      "proton": "Protó  0,84 fm",
+      "quarks": "Quarks  <10⁻¹⁸ m"
+    },
+    "card": {
+      "element": "{symbol} · {name} · Z = {z}  [N/P]",
+      "isotope": "{symbol}-{a}: {protons} + {neutrons} · isòtop {i} de {total}  [ ]",
+      "natural": "{abundance} % a la natura",
+      "stable": "estable",
+      "half_life": "període de semidesintegració {t}",
+      "half_life_unknown": "radioactiu, període sense mesurar",
+      "unknown": "no lligat o sense desintegració observada",
+      "decay": "es desintegra per {modes}"
+    },
+    "atom": {
+      "nucleus_title": "Nucli {of_element}: {protons} + {neutrons}",
+      "nucleus_distance": "Distància al nucli: {d} pm",
+      "nucleus_explanation": [
+        "Radi ≈ {r} fm: l'àtom és ~{ratio} vegades més gran.",
+        "Gairebé tota la massa de l'àtom és aquí. Apropa-t'hi (o prem Enter) per entrar."
+      ],
+      "cloud_title": "Núvol electrònic · {electrons}",
+      "cloud_detail": "Configuració: {config}",
+      "zeff": "Càrrega efectiva (Slater): {zeff}",
+      "cloud_explanation": [
+        "Cada punt és una posició probable d'un electró, no una trajectòria: no orbiten.",
+        "Colors: un per capa, de n = 1 (taronja) a n = 7. Els orbitals p, d i f mostren els lòbuls. O: un subnivell cada vegada.",
+        "Els electrons són partícules elementals: no hi ha res dins seu."
+      ],
+      "cloud_explanation_realistic": [
+        "Àtom aïllat en el seu estat fonamental: fent la mitjana de totes les orientacions, la densitat és esfèrica.",
+        "Els electrons són partícules elementals: no hi ha res dins seu."
+      ],
+      "time": "Orbitals estacionaris: la densitat no canvia (el parpelleig = mesures successives)",
+      "subshell_title": "Subnivell {name} · {electrons}",
+      "subshell_zeff": "Càrrega efectiva (Slater): {zeff} · radi mitjà ≈ {r} pm",
+      "shape": {
+        "s": "Orbital s: una esfera (amb {nodes} nodes esfèrics a dins).",
+        "p": "Orbitals p: dos lòbuls (un vuit) al llarg de x, y o z.",
+        "d": "Orbitals d: trèvols de quatre fulles, i el dz²: dos lòbuls amb un anell al mig.",
+        "f": "Orbitals f: sis o vuit lòbuls; les formes més complexes dels estats fonamentals."
+      },
+      "hund": "Regla de Hund: els electrons ocupen primer orbitals buits (↑) i després s'aparellen (↑↓).",
+      "full": "Subnivell ple: els seus orbitals sumen una esfera perfecta (teorema d'Unsöld).",
+      "partial": "Mig ple: hi ha diversos estats igual de bons; aquest n'és un.",
+      "realistic_subshell": "Mode realista: fent la mitjana de les orientacions, tots els subnivells són esfèrics.",
+      "orbital_title": "Orbital {name} · {electrons}",
+      "orbital_colors": "Cada orbital, d'un color. I: els orbitals d'un en un."
+    },
+    "nucleus": {
+      "title": "{protons} + {neutrons} · radi ≈ {r} fm",
+      "detail": "Densitat ≈ {rho} kg/m³",
+      "explanation": [
+        "La força forta guanya la repulsió elèctrica entre els {protons}.",
+        "Probabilitat de trobar un electró aquí dins: ~{p_in}",
+        "Una culleradeta de matèria nuclear pesaria ~1.000 milions de tones."
+      ],
+      "explanation_hydrogen": [
+        "El nucli de l'hidrogen-1 és un únic protó.",
+        "Probabilitat de trobar l'electró aquí dins: ~{p_in}"
+      ],
+      "explanation_realistic": [
+        "Densitat de matèria nuclear (perfil de Woods–Saxon): els nucleons",
+        "són ones quàntiques i no tenen una posició definida."
+      ],
+      "unstable": "Nucli inestable: {decay}.",
+      "strong_lines": "Línies verdes: força nuclear forta (abast ~2 fm).",
+      "go_in": "apropa-t'hi (o prem Enter) per entrar",
+      "proton": {
+        "title": "Protó",
+        "detail": "càrrega +1 · {mass} MeV/c² · quarks u u d",
+        "explanation": [
+          "3 quarks de valència (uud) units per gluons.",
+          "Només ~1 % de la seva massa ve dels quarks: la resta és energia",
+          "de la interacció forta (E = mc²)."
+        ]
+      },
+      "neutron": {
+        "title": "Neutró",
+        "detail": "càrrega 0 · {mass} MeV/c² · quarks u d d",
+        "explanation": [
+          "3 quarks de valència (udd). Lliure, es desintegra en ~15 minuts;",
+          "dins d'un nucli estable dura per sempre.",
+          "Sense neutrons, la repulsió elèctrica separaria els protons."
+        ]
+      },
+      "time": "1 s a la pantalla ≈ 10⁻²² s reals (un nucleó travessa el nucli en ~10⁻²² s)"
+    },
+    "nucleon": {
+      "proton": "Protó",
+      "neutron": "Neutró",
+      "title": "{name}: quarks de valència {content} + mar de partons",
+      "colors_now": "Colors ara: {colors}",
+      "realistic_detail": "1 s a la pantalla ≈ 10⁻²⁴ s reals",
+      "up": {
+        "title": "Quark up (u)",
+        "detail": "càrrega +2/3 · massa ≈ {mass} MeV/c² · color: {color}"
+      },
+      "down": {
+        "title": "Quark down (d)",
+        "detail": "càrrega −1/3 · massa ≈ {mass} MeV/c² · color: {color}"
+      },
+      "quark_explanation": [
+        "Partícula fonamental: sense estructura coneguda (< 10⁻¹⁸ m).",
+        "Aquí s'acaba el viatge: no hi ha res «dins» d'un quark.",
+        "Confinament: si separes un quark, el tub de gluons es",
+        "trenca i crea nous parells quark–antiquark."
+      ],
+      "explanation": [
+        "Vermell/verd/blau = càrrega de color (una etiqueta, no un color real).",
+        "Els 3 quarks sumen «blanc». Els gluons viatgers intercanvien",
+        "el color entre ells. Punts del fons: gluons i parells del mar.",
+        "Els quarks aporten ~1 % de la massa; la resta és energia (E = mc²)."
+      ],
+      "explanation_realistic": [
+        "Boira de partons: quarks, antiquarks i gluons que apareixen i",
+        "desapareixen. No es pot assenyalar on és cada quark: només la",
+        "probabilitat de trobar-los (radi de càrrega 0,84 fm)."
+      ],
+      "colors": {
+        "r": "vermell",
+        "g": "verd",
+        "b": "blau"
+      },
+      "time": "1 s a la pantalla ≈ 10⁻²⁴ s reals (la llum travessa un protó en ~3×10⁻²⁴ s)"
+    },
+    "decay": {
+      "A": "α",
+      "B-": "β⁻",
+      "B+": "β⁺",
+      "e+": "β⁺",
+      "EC": "captura electrònica",
+      "SF": "fissió espontània",
+      "p": "emissió d'un protó",
+      "2p": "emissió de 2 protons",
+      "3p": "emissió de 3 protons",
+      "n": "emissió d'un neutró",
+      "2n": "emissió de 2 neutrons",
+      "3n": "emissió de 3 neutrons",
+      "4n": "emissió de 4 neutrons",
+      "2B-": "doble β⁻",
+      "2B+": "doble β⁺",
+      "IT": "transició isomèrica",
+      "cluster": "emissió d'un nucli de {nucleus}",
+      "joiner": " o "
+    }
+  },
+  "console": {
+    "menu": {
+      "back": "Tornar",
+      "select": "Tria una opció: ",
+      "what": "Què vols fer? ",
+      "invalid": "Opció no vàlida."
+    },
+    "input": {
+      "whole_number": "Escriu un nombre enter ≥ {minimum}.",
+      "positive_number": "Escriu un nombre més gran que 0.",
+      "between": "Escriu un nombre entre {minimum} i {maximum}."
+    },
+    "language": {
+      "saved": "Idioma: català (desat per a la propera vegada)"
+    },
+    "main": {
+      "exit": "Sortir",
+      "table": "Taula periòdica",
+      "model": "Model Estàndard",
+      "universe": "Els tres primers minuts (Big Bang)",
+      "goodbye": "Fins a la propera."
+    },
+    "table": {
+      "title": "Taula periòdica",
+      "molecule": "Calcular els àtoms d'una molècula",
+      "explore": "Explorar un àtom en 3D"
+    },
+    "molecule": {
+      "intro": "Escriu una fórmula química amb els símbols dels elements, p. ex. H2O, CO2, C6H12O6, Ca(OH)2",
+      "ask_formula": "Fórmula (buit per tornar): ",
+      "ask_grams": "Massa en grams: ",
+      "molar_mass": "Massa molar",
+      "moles": "Mols",
+      "molecules": "Molècules",
+      "atoms": "Àtoms",
+      "subatomic": "Món subatòmic",
+      "protons": "Protons",
+      "neutrons": "Neutrons",
+      "electrons": "Electrons",
+      "quarks_in": "Quarks {quark} en protons: {protons}   en neutrons: {neutrons}",
+      "quark_mass": "Massa dels quarks {quark}: {mass} MeV/c²",
+      "mass_title": "D'on surt la massa?",
+      "mass_explanation": [
+        "La massa en repòs dels quarks Up i Down és només un {pct} % de la massa",
+        "dels protons i neutrons. La resta, un {rest} %, és energia de la interacció",
+        "forta (gluons i quarks confinats en moviment) convertida en massa: E = mc²."
+      ],
+      "average_note": "Els neutrons són la mitjana dels isòtops naturals de cada element."
+    },
+    "explore": {
+      "missing": "El visor 3D necessita paquets addicionals ({packages}).",
+      "install": "Instal·la'ls amb:  pip install -r requirements.txt",
+      "ask_element": "Element (nom en qualsevol idioma, símbol o nombre; buit per tornar): ",
+      "unknown_element": "Element desconegut: {text}",
+      "known": "{count} isòtops coneguts (nombres màssics del {first} al {last})",
+      "natural": "A la natura:",
+      "none_natural": "Cap a la natura: tots els seus isòtops són radioactius i artificials.",
+      "ask_isotope": "Nombre màssic [Enter = {isotope}]: ",
+      "unknown_isotope": "{isotope} no és un isòtop conegut (prova del {first} al {last}).",
+      "opening": "Obrint {isotope} en una finestra nova...",
+      "hint": "(Enter: baixar un nivell · Retrocés: pujar · H: ajuda. Pots continuar fent servir el menú.)"
+    },
+    "model": {
+      "title": "Model Estàndard",
+      "key": "llegenda",
+      "option_bigbang": "Big Bang de bits (joc de bytes a l'atzar)",
+      "option_particle": "Veure la fitxa d'una partícula",
+      "option_masses": "Convertidor de masses (eV/c² ⇄ kg)",
+      "ask_particle": "Número o nom de la partícula (buit per tornar): ",
+      "unknown_particle": "Partícula desconeguda.",
+      "mass": "Massa",
+      "charge": "Càrrega",
+      "spin": "Espín",
+      "binary": "Binari",
+      "upper_limit": "Només se'n coneix una cota superior de la massa.",
+      "hypothetical": "Hipotètica: no s'ha observat mai i NO forma part del Model Estàndard."
+    },
+    "masses": {
+      "title": "Convertidor de masses",
+      "option_table": "Veure la massa de totes les partícules en kg",
+      "option_convert": "Convertir una massa entre unitats",
+      "particle": "Partícula",
+      "mass": "Massa",
+      "mass_kg": "Massa (kg)",
+      "mass_u": "Massa (u)",
+      "massless": "sense massa",
+      "footnote": "1 eV/c² = 1,602176634 × 10^-19 J / (299 792 458 m/s)² = 1,78266192 × 10^-36 kg (exacte al SI)",
+      "ask_value": "Valor de la massa (buit per tornar): ",
+      "unit": "Unitat",
+      "compare": "= {electrons} masses de l'electró = {protons} masses del protó",
+      "closest": "Partícula més semblant: {name} (la teva massa és {ratio} vegades la seva)"
+    },
+    "bigbang": {
+      "byte": "8 bits = 1 byte",
+      "original": "Bits originals",
+      "matched_bytes": "Bytes que coincideixen amb una partícula:",
+      "matched_names": "Noms de les partícules trobades:",
+      "leftover": " (+{count} bits solts)",
+      "summary": "He creat {full} bytes{extra}; {found} coincideixen amb una partícula.",
+      "ask_bits": "Quants bits vols generar?: ",
+      "option_time": "Veure el temps que ha trigat cada bit",
+      "transforms": {
+        "invert": "Canviar zeros per uns, i al revés",
+        "reverse": "Invertir l'ordre dels bits",
+        "invert_reverse": "Canviar zeros per uns i invertir l'ordre"
+      },
+      "ask_option": "Tria què vols fer: ",
+      "total_time": "Total: {total} ns — mitjana: {average} ns per bit",
+      "bit_time": "Bit {i} ({bit}): {ns} ns",
+      "more": "... ({count} més)",
+      "invalid": "Opció no vàlida, torna-ho a provar."
+    },
+    "universe": {
+      "menu_title": "Els tres primers minuts — nucleosíntesi del Big Bang",
+      "option_simulate": "Simular el nostre univers (valors mesurats)",
+      "option_custom": "Canviar les lleis de l'univers",
+      "option_particles": "Partícula a partícula (a l'atzar)",
+      "option_neutrinos": "Quantes espècies de neutrins hi ha?",
+      "title": "Els tres primers minuts",
+      "parameters": "η = {eta} barions per fotó · {species} espècies de neutrins · vida mitjana del neutró {tau} s",
+      "time": "Temps",
+      "temperature": "Temperatura",
+      "neutrons": "Neutrons",
+      "protons": "Protons",
+      "composition": "Composició en massa",
+      "frame": "Fotograma {n} de Weinberg",
+      "event_names": {
+        "freeze_out": "Congelació",
+        "annihilation": "Anihilació",
+        "nucleosynthesis": "Nucleosíntesi"
+      },
+      "key_neutrons": "neutrons",
+      "key_protons": "protons (hidrogen)",
+      "key_deuterium": "deuteri",
+      "key_helium": "heli-4",
+      "result": "Resultat després de les primeres hores",
+      "helium": "Heli-4     : {value} % de la massa   (observat {observed} %, codis complets {standard} %)",
+      "hydrogen": "Hidrogen   : {value} % de la massa",
+      "deuterium": "Deuteri    : D/H = {value}   (observat {observed}; aquest model només dona l'ordre de magnitud)",
+      "custom_intro": "Canvia les lleis del teu univers (prem Enter per deixar el valor real):",
+      "ask_eta": "Barions per fotó η, × 10⁻¹⁰",
+      "ask_species": "Nombre d'espècies de neutrins",
+      "ask_tau": "Vida mitjana del neutró en segons",
+      "neutrinos_intro": [
+        "Quants tipus de neutrí hi ha? Cada espècie de més fa que l'univers",
+        "s'expandeixi més de pressa, els neutrons es congelen abans... i surt més heli."
+      ],
+      "species": "Espècies",
+      "helium_short": "Heli",
+      "compatible": "compatible amb l'observat",
+      "lep": "Els acceleradors (LEP, CERN, 1989) ho van confirmar: n'hi ha exactament 3.",
+      "ask_nucleons": "Quants nucleons vols al teu univers? (p. ex. 1000): ",
+      "capped": "Se'n faran servir 1.000.000 (més trigaria massa).",
+      "your_universe": "El teu univers: {helium} nuclis d'heli i {hydrogen} d'hidrogen → {pct} % d'heli en massa.",
+      "run_again": "Torna-ho a provar: amb pocs nucleons l'atzar pesa molt; amb molts, sempre surt ~25 %."
+    }
+  },
+  "errors": {
+    "empty_formula": "Escriu una fórmula.",
+    "unexpected_character": "Hi ha un caràcter que no s'esperava, «{char}», a la posició {position}.",
+    "unmatched_closing": "Hi ha un parèntesi que es tanca sense haver-se obert.",
+    "empty_parentheses": "Hi ha uns parèntesis buits.",
+    "nothing_to_multiply": "El número {number} no té res al davant per multiplicar.",
+    "zero_subscript": "Un subíndex no pot ser 0.",
+    "unclosed_parenthesis": "Falta tancar un parèntesi.",
+    "unknown_symbols": "No hi ha cap element amb el símbol {symbols}. Recorda: majúscula i minúscula (Co és cobalt; CO, carboni i oxigen).",
+    "zero_molar_mass": "La massa molar de {formula} surt 0.",
+    "invalid_formula": "La fórmula no és vàlida.",
+    "unknown_unit": "Unitat de massa desconeguda: {unit}."
+  },
+  "events": {
+    "freeze_out": "Es congelen les interaccions febles: n/p deixa de seguir l'equilibri",
+    "annihilation": "Electrons i positrons s'anihilen i escalfen els fotons",
+    "nucleosynthesis": "Es trenca el coll d'ampolla del deuteri: es forma la meitat de l'heli"
+  }
+}
