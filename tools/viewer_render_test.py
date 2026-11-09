@@ -4,6 +4,7 @@ guarda capturas PNG de cada nivel.
 
     python tools/viewer_render_test.py [carpeta_salida] [elemento] [isótopo] [idioma]
     python tools/viewer_render_test.py test_frames Fe 56 es
+    python tools/viewer_render_test.py test_frames O 16 es plastic     (modo inicial)
 """
 import sys
 from pathlib import Path
@@ -30,16 +31,17 @@ def context():
         return moderngl.create_standalone_context(backend="egl")
 
 
-def main(out_dir="test_frames", element="Fe", mass_number=None, lang="es", didactic=True):
+def main(out_dir="test_frames", element="Fe", mass_number=None, lang="es", mode="didactic"):
     out = Path(out_dir)
     out.mkdir(parents=True, exist_ok=True)
     ctx = context()
-    fbo = ctx.framebuffer(color_attachments=[ctx.texture((W, H), 4)])
+    fbo = ctx.framebuffer(color_attachments=[ctx.texture((W, H), 4)],
+                          depth_attachment=ctx.depth_renderbuffer((W, H)))   # modo plástico
     table, isotopes = PeriodicTable(), IsotopeTable()
     el = table.find(element)
     iso = isotopes.get(el.number, int(mass_number)) if mass_number else isotopes.default(el)
     tr = Translator(lang)
-    eng = Engine(ctx, el, iso, tr, didactic, isotopes.of(el.number))
+    eng = Engine(ctx, el, iso, tr, isotopes_of_element=isotopes.of(el.number), mode=mode)
     hud = HUD(ctx, tr)
 
     def snap(name):
@@ -84,10 +86,10 @@ def main(out_dir="test_frames", element="Fe", mass_number=None, lang="es", didac
     assert run(4000, lambda: eng.autopilot is None)
     snap("6_de_vuelta_al_atomo")
     eng.toggle_mode()
-    snap("7_atomo_realista")
+    snap(f"7_atomo_{eng.mode}")
     print("Capturas en", out.resolve())
     return eng
 
 
 if __name__ == "__main__":
-    main(*sys.argv[1:5])
+    main(*sys.argv[1:6])

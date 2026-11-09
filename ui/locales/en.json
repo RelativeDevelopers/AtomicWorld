@@ -70,7 +70,9 @@
       "loading": "Building {name}…",
       "showing_subshell": "Subshell {name} (O: next)",
       "showing_all": "All the electrons",
-      "showing_orbital": "Orbital {name} (I: next)"
+      "showing_orbital": "Orbital {name} (I: next)",
+      "mode_plastic": "Mode: 3D PLASTIC  [Tab]",
+      "now_plastic": "3D PLASTIC mode: toy particles"
     },
     "depth_marks": {
       "atom": "Atom  ~100 pm",
@@ -121,7 +123,12 @@
       "partial": "Partly filled: several states are equally good; this is one of them.",
       "realistic_subshell": "Realistic mode: averaged over orientations, every subshell is spherical.",
       "orbital_title": "Orbital {name} · {electrons}",
-      "orbital_colors": "Each orbital in its own colour. I: one orbital at a time."
+      "orbital_colors": "Each orbital in its own colour. I: one orbital at a time.",
+      "plastic": [
+        "Plastic mode: each green ball (e⁻) is an electron. They orbit as in Bohr's model (1913).",
+        "In reality they have no size and no path: they are probability clouds (Tab: other modes).",
+        "In the centre, the nucleus with its protons (+) and neutrons (0), to scale: tiny."
+      ]
     },
     "nucleus": {
       "title": "{protons} + {neutrons} · radius ≈ {r} fm",
@@ -160,7 +167,11 @@
           "Without neutrons, the electric repulsion would push the protons apart."
         ]
       },
-      "time": "1 s on screen ≈ 10⁻²² s (a nucleon crosses the nucleus in ~10⁻²² s)"
+      "time": "1 s on screen ≈ 10⁻²² s (a nucleon crosses the nucleus in ~10⁻²² s)",
+      "plastic": [
+        "Plastic mode: protons (+, red) and neutrons (0, blue). The colours are made up.",
+        "They are not hard balls: each one is a cloud of quarks and gluons ~0.84 fm in radius."
+      ]
     },
     "nucleon": {
       "proton": "Proton",
@@ -198,7 +209,12 @@
         "g": "green",
         "b": "blue"
       },
-      "time": "1 s on screen ≈ 10⁻²⁴ s (light crosses a proton in ~3×10⁻²⁴ s)"
+      "time": "1 s on screen ≈ 10⁻²⁴ s (light crosses a proton in ~3×10⁻²⁴ s)",
+      "plastic": [
+        "Plastic mode: up (u) and down (d) quarks; the gluon (g) travels from one to another.",
+        "The halo of each quark is its colour charge (red, green or blue): a label, not a colour.",
+        "Quarks are point-like: here they are balls so you can see them."
+      ]
     },
     "decay": {
       "A": "α",

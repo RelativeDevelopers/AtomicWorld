@@ -3,6 +3,7 @@
     python -m viewer Fe
     python -m viewer Hierro --isotope 54 --lang es
     python -m viewer 92 --isotope 235 --realistic
+    python -m viewer O --mode plastic          (didactic, realistic, plastic)
 """
 import argparse
 import sys
@@ -19,6 +20,9 @@ def parse_args(argv=None):
     parser.add_argument("--isotope", type=int, help="mass number, e.g. 14 for carbon-14")
     parser.add_argument("--lang", choices=LANGUAGES, help="en, es or ca (default: saved language)")
     parser.add_argument("--realistic", action="store_true", help="start in realistic mode")
+    parser.add_argument("--mode", choices=("didactic", "realistic", "plastic"),
+                        help="starting mode; plastic: protons, neutrons, electrons and quarks "
+                             "as plastic balls")
     return parser.parse_args(argv)
 
 
@@ -40,7 +44,8 @@ def main(argv=None):
 
     import pyglet                       # solo aquí: los tests no necesitan ventana
     from viewer.app import App
-    App(element, isotope, tr, didactic=not args.realistic, table=table, isotopes=isotopes)
+    mode = args.mode or ("realistic" if args.realistic else "didactic")
+    App(element, isotope, tr, didactic=not args.realistic, table=table, isotopes=isotopes, mode=mode)
     pyglet.app.run()
 
 

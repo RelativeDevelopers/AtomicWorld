@@ -6,6 +6,15 @@ Motor: pila de niveles, transiciones con fundido, autopiloto y dibujo.
 La nave siempre vive en las coordenadas del nivel superior de la pila. Al entrar en un
 hijo se apila; al salir se desapila. Durante ~0,6 s se dibujan ambos niveles con un
 fundido cruzado.
+
+Modos de visualización (tecla Tab, Mayús+Tab hacia atrás):
+
+    didactic   didáctico: colores por capa, lóbulos de los orbitales, marcadores
+    realistic  realista: lo más fiel a la física
+    plastic    plástico: protones, neutrones, electrones y quarks como bolas de plástico
+
+El plástico usa los textos del didáctico (más alguna línea propia): por eso
+engine.didactic es True en todos menos en el realista.
 """
 from collections import OrderedDict
 from dataclasses import dataclass
@@ -19,6 +28,7 @@ from viewer.mathutil import perspective, view_matrix
 from viewer.render.points import Camera, Renderer
 from viewer.ship import Ship
 
+MODES = ("didactic", "realistic", "plastic")
 FOV_Y = 70.0
 TRANSITION_TIME = 0.6
 CACHE_SIZE = 4
@@ -44,11 +54,14 @@ class Autopilot:
 
 
 class Engine:
-    def __init__(self, ctx, element, isotope, tr, didactic=True, isotopes_of_element=()):
+    def __init__(self, ctx, element, isotope, tr, didactic=True, isotopes_of_element=(),
+                 mode=None):
         self.renderer = Renderer(ctx)
         self.isotopes_of_element = list(isotopes_of_element)   # para "isótopo i de N" en el HUD
         self.tr = tr
-        self.didactic = didactic
+        self.mode = mode or ("didactic" if didactic else "realistic")
+        if self.mode not in MODES:
+            raise ValueError(f"unknown mode: {self.mode}")
         self.time = 0.0
         self.stack = []
         self.cache: OrderedDict = OrderedDict()
@@ -65,7 +78,7 @@ class Engine:
         self._release_all()
         self.element, self.isotope = element, isotope
         root = AtomLevel(element, isotope, self.tr)
-        root.build(self.renderer, self.didactic)
+        self._build(root)
         self.stack = [(root, None)]
         self.transition = None
         self.autopilot = None
@@ -85,6 +98,16 @@ class Engine:
                 lvl.release()
         self.cache.clear()
         self.stack = []
+
+    # ------------------------------------------------------------ modos
+    @property
+    def didactic(self) -> bool:
+        """Textos y marcadores didácticos: en todos los modos menos el realista."""
+        return self.mode != "realistic"
+
+    def _build(self, level: Level):
+        level.mode = self.mode
+        level.build(self.renderer, self.didactic)
 
     # ------------------------------------------------------------ propiedades
     @property
@@ -140,7 +163,7 @@ class Engine:
             self.cache.move_to_end(child.key)
             return self.cache[child.key]
         lvl = child.create()
-        lvl.build(self.renderer, self.didactic)
+        self._build(lvl)
         self.cache[child.key] = lvl
         while len(self.cache) > CACHE_SIZE:
             key, old = next(iter(self.cache.items()))
@@ -151,13 +174,21 @@ class Engine:
             old.release()
         return lvl
 
-    def toggle_mode(self):
-        self.didactic = not self.didactic
+    def toggle_mode(self, step: int = 1) -> str:
+        """Tab: el modo siguiente (step=-1, Mayús+Tab: el anterior). Devuelve el nuevo."""
+        return self.set_mode(MODES[(MODES.index(self.mode) + step) % len(MODES)])
+
+    def set_mode(self, mode: str) -> str:
+        if mode not in MODES:
+            raise ValueError(f"unknown mode: {mode}")
+        self.mode = mode
         levels = [s for s, _ in self.stack] + [c for c in self.cache.values()
                                                  if not any(c is s for s, _ in self.stack)]
         for lvl in levels:
+            lvl.mode = mode
             lvl.set_mode(self.renderer, self.didactic)
         self.transition = None
+        return mode
 
     def cycle_subshell(self):
         """Tecla O: en el átomo, mostrar los subniveles de uno en uno."""
@@ -309,6 +340,7 @@ class Engine:
             "focus": lvl.focus(self.ship.pos, self.ship.forward, self.didactic),
             "time": lvl.time_info(),
             "didactic": self.didactic,
+            "mode": self.mode,
             "speed_mult": self.ship.speed_mult,
             "element": self.element,
             "isotope": self.isotope,

@@ -6,10 +6,15 @@ Se ve:
   - El núcleo, a su tamaño real: unas 50.000 veces más pequeño que el átomo. Desde fuera
     es invisible; hay que cruzar un "vacío" enorme hasta verlo aparecer. En modo didáctico
     lleva un marcador de 5 píxeles para saber hacia dónde ir.
+  - Modo plástico: además, cada electrón es una bola verde (e⁻) dando vueltas como en el
+    modelo de Bohr, y el núcleo es un racimo de bolas rojas (+) y azules (0) a escala real
+    (viewer/levels/plastic.py). La nube queda de fondo, tenue.
 """
 import numpy as np
 
 from atomicworld import atoms
+from atomicworld.scene import nucleus as nuc
+from viewer.levels import plastic
 from viewer.levels.base import Child, Focus, Level
 from viewer.render.points import LineSet, PointCloud, PointStyle
 from atomicworld.scene import orbitals
@@ -26,6 +31,7 @@ DETAIL_POINTS = 150_000     # puntos de lo que se muestra con O / I, tenga 1 ele
 AXIS_COLORS = {"x": (1.0, 0.45, 0.45), "y": (0.45, 1.0, 0.45), "z": (0.45, 0.65, 1.0)}
 ENTRY_FACTOR = 3.0          # se entra en el núcleo a 3 × su radio
 MAX_DISTANCE_FACTOR = 40    # la nave no se aleja más de 40 radios atómicos
+PLASTIC_CLOUD_FADE = 0.25   # modo plástico: la nube de fondo, tenue
 
 
 class AtomLevel(Level):
@@ -44,6 +50,9 @@ class AtomLevel(Level):
         self.orbital = None         # con un subnivel elegido: None = todos sus orbitales; k = solo uno
         self.renderer = None
         self.didactic = True
+        self.orbits = None          # modo plástico: una órbita por electrón
+        self.balls = None           # modo plástico: SpriteSet con electrones y nucleones
+        self.time = 0.0
 
     @property
     def name(self):
@@ -77,6 +86,34 @@ class AtomLevel(Level):
         self._build_detail()
         self.clouds["nucleus"] = PointCloud(renderer, np.zeros((1, 3)), np.array([NUCLEUS_COLOR]),
                                             np.array([self.nucleus_r_pm]), np.zeros(1))
+        if self.mode == "plastic":
+            self._build_plastic(renderer)
+
+    # ------------------------------------------------------------ modo plástico
+    def _build_plastic(self, renderer):
+        """Electrones (e⁻) en órbitas de Bohr y el núcleo de protones y neutrones."""
+        from viewer.render.sprites import SpriteSet
+        self.orbits = plastic.electron_orbits(self.el.protons, self.shells,
+                                              np.random.default_rng(500 + self.el.number))
+        A = self.iso.a
+        rng = np.random.default_rng(self.el.number * 1000 + A)      # el mismo núcleo que el nivel 2
+        centers = nuc.pack_nucleons(A, atoms.nuclear_radius_fm(A), rng)
+        kinds = nuc.assign_kinds(self.el.protons, self.iso.neutrons, rng)
+        self.nucleon_pos = centers / 1000.0                             # fm -> pm
+        n = self.orbits.count
+        radius = np.concatenate([np.full(n, plastic.electron_ball_pm(self.el.protons, self.shells)),
+                                 np.full(A, plastic.NUCLEON_BALL_FM / 1000.0)])
+        min_px = np.concatenate([np.full(n, plastic.ELECTRON_MIN_PX), np.full(A, plastic.NUCLEON_MIN_PX)])
+        self.balls = SpriteSet(renderer, self._ball_positions(self.time), radius,
+                               ["electron"] * n + plastic.nucleon_kinds(kinds), min_px=min_px)
+
+    def _ball_positions(self, t):
+        return np.vstack([self.orbits.positions(t), self.nucleon_pos])
+
+    def update(self, dt, time):
+        self.time = time
+        if self.balls is not None:
+            self.balls.set(pos=self._ball_positions(time))
 
     def _didactic_style(self, shells_n, shells_l):
         """Brillo y tamaño de cada punto según su subnivel (ver orbitals.didactic_style)."""
@@ -168,14 +205,21 @@ class AtomLevel(Level):
     def release(self):
         for c in self.clouds.values():
             c.release()
-        self.clouds = {}
+        if self.balls is not None:
+            self.balls.release()
+        self.clouds, self.balls, self.orbits = {}, None, None
 
     # ------------------------------------------------------------ dibujo
     def render(self, renderer, cam, didactic, fade):
         cloud = self.clouds["detail"] if self.view is not None else self.clouds["electrons"]
-        renderer.points(cloud, cam, PointStyle(twinkle=0.5, min_px=1.5, max_px=7, softness=0.85), fade)
+        cloud_fade = fade * (PLASTIC_CLOUD_FADE if self.balls is not None and self.view is None else 1.0)
+        renderer.points(cloud, cam, PointStyle(twinkle=0.5, min_px=1.5, max_px=7, softness=0.85),
+                        cloud_fade)
         if "axes" in self.clouds:
             renderer.lines(self.clouds["axes"], cam, fade * 0.8, 0.0)
+        if self.balls is not None:
+            renderer.sprites(self.balls, cam, fade)
+            return
         # El núcleo: en modo realista, tamaño real (invisible hasta acercarse mucho).
         # En modo didáctico, un marcador mínimo de 5 px para saber dónde está.
         renderer.points(self.clouds["nucleus"], cam,
@@ -226,7 +270,8 @@ class AtomLevel(Level):
         if didactic:
             zeff = ", ".join(f"{s.name} {tr.num(atoms.slater_zeff(el.protons, self.shells, s.n, s.l), 2)}"
                              for s in self.shells[-4:])
-            expl = [tr.t("viewer.atom.zeff", zeff=zeff)] + tr.lines("viewer.atom.cloud_explanation")
+            expl = [tr.t("viewer.atom.zeff", zeff=zeff)] + tr.lines(
+                "viewer.atom.plastic" if self.mode == "plastic" else "viewer.atom.cloud_explanation")
         else:
             expl = tr.lines("viewer.atom.cloud_explanation_realistic")
         return Focus(tr.t("viewer.atom.cloud_title", electrons=tr.count(el.electrons, "electron")),

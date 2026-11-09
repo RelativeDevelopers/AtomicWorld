@@ -17,12 +17,14 @@ from viewer.hud import HUD
 
 
 class App(pyglet.window.Window):
-    def __init__(self, element, isotope, tr, didactic=True, table=None, isotopes=None):
+    def __init__(self, element, isotope, tr, didactic=True, table=None, isotopes=None, mode=None):
         self.tr = tr
         self.table = table or PeriodicTable()
         self.isotopes = isotopes or IsotopeTable()
+        # depth_size: el modo plástico usa el búfer de profundidad (las bolas se tapan)
         config = pyglet.gl.Config(double_buffer=True, major_version=3, minor_version=3,
-                                  forward_compatible=True, sample_buffers=1, samples=4)
+                                  forward_compatible=True, sample_buffers=1, samples=4,
+                                  depth_size=24)
         try:
             super().__init__(1600, 900, tr.t("viewer.title"), resizable=True, config=config)
         except pyglet.window.NoSuchConfigException:
@@ -33,7 +35,8 @@ class App(pyglet.window.Window):
             print("WARNING: using the integrated graphics card. On Windows, choose the NVIDIA one in "
                   "Settings > System > Display > Graphics.")
 
-        self.engine = Engine(self.ctx, element, isotope, tr, didactic, self.isotopes.of(element.number))
+        self.engine = Engine(self.ctx, element, isotope, tr, didactic, self.isotopes.of(element.number),
+                             mode)
         self.hud = HUD(self.ctx, tr)
         self.hud_timer = 0.0
         self.pending = None               # cambio de átomo que se hace en el siguiente frame
@@ -137,9 +140,8 @@ class App(pyglet.window.Window):
                 self.close()
             return pyglet.event.EVENT_HANDLED   # que Esc no cierre la ventana directamente
         if symbol == key.TAB:
-            eng.toggle_mode()
-            self.hud.flash(tr.t("viewer.hud.now_didactic" if eng.didactic else "viewer.hud.now_realistic"),
-                           eng.time)
+            mode = eng.toggle_mode(-1 if modifiers & key.MOD_SHIFT else 1)
+            self.hud.flash(tr.t(f"viewer.hud.now_{mode}"), eng.time)
         elif symbol in (key.ENTER, key.RETURN, key.NUM_ENTER):
             eng.start_autopilot("down")
         elif symbol == key.BACKSPACE:

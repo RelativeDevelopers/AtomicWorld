@@ -17,6 +17,8 @@ FONT_CANDIDATES = ["consola.ttf", "CascadiaMono.ttf", "DejaVuSansMono.ttf",
 
 DEPTH_MARKS = [(1.5e-10, "atom"), (5e-15, "nucleus"), (8.4e-16, "proton"), (1e-18, "quarks")]
 BAR_TOP, BAR_BOTTOM = 1e-8, 1e-19
+MODE_COLORS = {"didactic": (255, 210, 120, 255), "realistic": (140, 230, 200, 255),
+               "plastic": (255, 140, 170, 255)}
 
 VERT = """#version 330
 in vec2 in_pos; out vec2 v_uv;
@@ -80,8 +82,7 @@ class HUD:
             (f, tr.t("viewer.hud.speed", v=scale.length(st["speed_m_s"], dec),
                      mult=f"{st['speed_mult']:.2g}".replace(".", dec)), (190, 215, 255, 255)),
             (f_small, tr.t("viewer.hud.time", t=st["time"]), (150, 170, 200, 255)),
-            (f_small, tr.t("viewer.hud.mode_didactic" if st["didactic"] else "viewer.hud.mode_realistic"),
-             (255, 210, 120, 255) if st["didactic"] else (140, 230, 200, 255)),
+            (f_small, tr.t(f"viewer.hud.mode_{st['mode']}"), MODE_COLORS[st["mode"]]),
         ]
         y = pad
         box_w = max(int(560 * k), int(max(d.textlength(t, font=fo) for fo, t, _ in lines)) + pad)

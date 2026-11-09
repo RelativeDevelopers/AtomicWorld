@@ -43,7 +43,21 @@ el menú (**Periodic Table → 2] Explore an atom in 3D**) o directamente:
 python -m viewer Fe                       # hierro-56, el isótopo más abundante
 python -m viewer Uranio --isotope 235     # nombre en cualquier idioma, símbolo o número
 python -m viewer 6 --isotope 14 --lang ca --realistic
+python -m viewer O --mode plastic         # empezar en el modo plástico 3D
 ```
+
+Tres modos, con **Tab** (Mayús+Tab hacia atrás):
+
+| Modo | Qué ves |
+|---|---|
+| Didáctico | colores por capa, lóbulos de los orbitales, protones y neutrones de colores |
+| Realista | lo más fiel a la física: densidades, sin colores inventados |
+| **Plástico 3D** | protones (+), neutrones (0), electrones (e⁻), quarks up (u) y down (d) y el gluón (g) como bolas de plástico brillante |
+
+En el modo plástico los electrones dan vueltas como en el modelo de Bohr y los quarks tienen
+tamaño, para poder verlos: es un modelo de juguete, y el HUD lo explica. Las imágenes de las
+bolas están en `viewer/render/textures/`; se dibujan con la profundidad de una esfera de
+verdad, así que las que se solapan en el núcleo se cortan bien.
 
 | Nivel | Escala | Qué se ve |
 |---|---|---|
@@ -61,7 +75,7 @@ python -m viewer 6 --isotope 14 --lang ca --realistic
 | **[ / ]** | isótopo anterior / siguiente (los ~3.500 conocidos) |
 | **O** | ver los subniveles de uno en uno (4s → 3d → 3p...), con ejes x, y, z; la nave se acerca sola |
 | **I** | con un subnivel p, d o f elegido: sus orbitales de uno en uno (3dz², 3dxz...) |
-| Tab | modo didáctico ↔ realista |
+| Tab · Mayús+Tab | modo: didáctico → realista → plástico 3D (y al revés) |
 | **L** | idioma: English → español → català (se recuerda) |
 | H · F11 | ayuda · pantalla completa |
 

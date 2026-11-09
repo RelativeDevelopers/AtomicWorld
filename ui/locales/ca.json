@@ -70,7 +70,9 @@
       "loading": "Construint {name}…",
       "showing_subshell": "Subnivell {name} (O: següent)",
       "showing_all": "Tots els electrons",
-      "showing_orbital": "Orbital {name} (I: següent)"
+      "showing_orbital": "Orbital {name} (I: següent)",
+      "mode_plastic": "Mode: PLÀSTIC 3D  [Tab]",
+      "now_plastic": "Mode PLÀSTIC 3D: partícules de joguina"
     },
     "depth_marks": {
       "atom": "Àtom  ~100 pm",
@@ -121,7 +123,12 @@
       "partial": "Mig ple: hi ha diversos estats igual de bons; aquest n'és un.",
       "realistic_subshell": "Mode realista: fent la mitjana de les orientacions, tots els subnivells són esfèrics.",
       "orbital_title": "Orbital {name} · {electrons}",
-      "orbital_colors": "Cada orbital, d'un color. I: els orbitals d'un en un."
+      "orbital_colors": "Cada orbital, d'un color. I: els orbitals d'un en un.",
+      "plastic": [
+        "Mode plàstic: cada bola verda (e⁻) és un electró. Giren com en el model de Bohr (1913).",
+        "En realitat no tenen mida ni trajectòria: són núvols de probabilitat (Tab: altres modes).",
+        "Al centre, el nucli amb els protons (+) i neutrons (0), a escala real: minúscul."
+      ]
     },
     "nucleus": {
       "title": "{protons} + {neutrons} · radi ≈ {r} fm",
@@ -160,7 +167,11 @@
           "Sense neutrons, la repulsió elèctrica separaria els protons."
         ]
       },
-      "time": "1 s a la pantalla ≈ 10⁻²² s reals (un nucleó travessa el nucli en ~10⁻²² s)"
+      "time": "1 s a la pantalla ≈ 10⁻²² s reals (un nucleó travessa el nucli en ~10⁻²² s)",
+      "plastic": [
+        "Mode plàstic: protons (+, vermell) i neutrons (0, blau). Els colors són inventats.",
+        "No són boles dures: cadascun és un núvol de quarks i gluons de ~0,84 fm de radi."
+      ]
     },
     "nucleon": {
       "proton": "Protó",
@@ -198,7 +209,12 @@
         "g": "verd",
         "b": "blau"
       },
-      "time": "1 s a la pantalla ≈ 10⁻²⁴ s reals (la llum travessa un protó en ~3×10⁻²⁴ s)"
+      "time": "1 s a la pantalla ≈ 10⁻²⁴ s reals (la llum travessa un protó en ~3×10⁻²⁴ s)",
+      "plastic": [
+        "Mode plàstic: quarks up (u) i down (d); el gluó (g) viatja de l'un a l'altre.",
+        "L'halo de cada quark és la seva càrrega de color (vermell, verd o blau): una etiqueta, no un color.",
+        "Els quarks són puntuals: aquí són boles per poder-los veure."
+      ]
     },
     "decay": {
       "A": "α",
