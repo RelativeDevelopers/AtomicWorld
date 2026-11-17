@@ -60,9 +60,10 @@ FOODS = [
     {"id": "apple", "parts": [(APPLE, 1)], "portion": {"fdc": "medium"},
      "names": {"es": "Manzana", "ca": "Poma", "en": "Apple"},
      "portion_names": {"es": "una manzana mediana", "ca": "una poma mitjana", "en": "a medium apple"}},
-    {"id": "pickle", "parts": [(PICKLE, 1)], "portion": {"fdc": "medium"},
+    {"id": "pickle", "parts": [(PICKLE, 1)], "portion": {"fdc": "large"},
      "names": {"es": "Pepinillo en vinagre", "ca": "Cogombret en vinagre", "en": "Dill pickle"},
-     "portion_names": {"es": "un pepinillo mediano", "ca": "un cogombret mitjà", "en": "a medium pickle"}},
+     "portion_names": {"es": "un pepinillo grande (10 cm)", "ca": "un cogombret gran (10 cm)",
+                       "en": "a large pickle (10 cm)"}},
     {"id": "carrot", "parts": [(CARROT, 1)], "portion": {"fdc": "medium"},
      "names": {"es": "Zanahoria", "ca": "Pastanaga", "en": "Carrot"},
      "portion_names": {"es": "una zanahoria mediana", "ca": "una pastanaga mitjana", "en": "a medium carrot"}},
@@ -106,13 +107,13 @@ def fdc_food(spec: tuple, key: str) -> dict:
 
 def density_g_per_ml(food: dict) -> tuple[float, str]:
     """Densidad a partir de las porciones de FDC (fl oz o cup). Sin porciones de volumen: 1 g/ml."""
-    for p in food.get("foodPortions", []):
-        text = f"{p.get('modifier', '')} {p.get('portionDescription', '')} {p.get('measureUnit', {}).get('name', '')}".lower()
-        amount = float(p.get("amount") or 1)
-        if "fl oz" in text:
-            return p["gramWeight"] / (amount * FL_OZ_ML), f"{amount:g} fl oz = {p['gramWeight']:g} g"
-        if "cup" in text:
-            return p["gramWeight"] / (amount * CUP_ML), f"{amount:g} cup = {p['gramWeight']:g} g"
+    # Mira cómo EMPIEZA la porción: «1 cup (8 fl oz)» es una taza, no una onza.
+    for unit, ml in (("fl oz", FL_OZ_ML), ("cup", CUP_ML)):
+        for p in food.get("foodPortions", []):
+            text = (p.get("modifier") or p.get("portionDescription") or p.get("measureUnit", {}).get("name", "")).lower().strip()
+            amount = float(p.get("amount") or 1)
+            if text.startswith(unit):
+                return p["gramWeight"] / (amount * ml), f"{amount:g} {text} = {p['gramWeight']:g} g"
     return 1.0, "sin porción de volumen en FDC: se toma 1 g/ml"
 
 

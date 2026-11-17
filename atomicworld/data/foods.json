@@ -1,0 +1,496 @@
+{
+  "_meta": {
+    "source": "USDA, Agricultural Research Service. FoodData Central, SR Legacy (2018). https://fdc.nal.usda.gov/ — dominio público (CC0).",
+    "generated": "2026-11-17",
+    "how": "python tools/build_foods.py: gramos de cada nutriente en 100 g, convertidos en las moléculas de food_molecules.json."
+  },
+  "foods": [
+    {
+      "id": "beer",
+      "names": {
+        "es": "Cerveza",
+        "ca": "Cervesa",
+        "en": "Beer"
+      },
+      "portion_grams": 331.4,
+      "portion_names": {
+        "es": "un tercio (330 ml)",
+        "ca": "un terç (330 ml)",
+        "en": "a bottle (330 ml)"
+      },
+      "portion_source": "1 fl oz = 29.7 g",
+      "sources": [
+        {
+          "fdc_id": 168746,
+          "description": "Alcoholic beverage, beer, regular, all",
+          "data_type": "SR Legacy"
+        }
+      ],
+      "components": [
+        {
+          "molecule": "water",
+          "grams_per_100g": 91.96
+        },
+        {
+          "molecule": "protein",
+          "grams_per_100g": 0.46
+        },
+        {
+          "molecule": "ethanol",
+          "grams_per_100g": 3.9
+        },
+        {
+          "molecule": "potassium",
+          "grams_per_100g": 0.027
+        },
+        {
+          "molecule": "sodium",
+          "grams_per_100g": 0.004
+        },
+        {
+          "molecule": "calcium",
+          "grams_per_100g": 0.004
+        },
+        {
+          "molecule": "magnesium",
+          "grams_per_100g": 0.006
+        },
+        {
+          "molecule": "phosphorus",
+          "grams_per_100g": 0.014
+        },
+        {
+          "molecule": "iron",
+          "grams_per_100g": 2e-05
+        },
+        {
+          "molecule": "zinc",
+          "grams_per_100g": 1e-05
+        }
+      ]
+    },
+    {
+      "id": "coffee_with_milk",
+      "names": {
+        "es": "Café con leche",
+        "ca": "Cafè amb llet",
+        "en": "White coffee"
+      },
+      "portion_grams": 203.2,
+      "portion_names": {
+        "es": "una taza (100 ml de café y 100 ml de leche)",
+        "ca": "una tassa (100 ml de cafè i 100 ml de llet)",
+        "en": "a cup (100 ml of coffee and 100 ml of milk)"
+      },
+      "portion_source": "suma de las partes",
+      "sources": [
+        {
+          "fdc_id": 171890,
+          "description": "Beverages, coffee, brewed, prepared with tap water",
+          "data_type": "SR Legacy",
+          "amount": "100 ml = 100.1 g (1 fl oz = 29.6 g)"
+        },
+        {
+          "fdc_id": 171265,
+          "description": "Milk, whole, 3.25% milkfat, with added vitamin D",
+          "data_type": "SR Legacy",
+          "amount": "100 ml = 103.1 g (1 fl oz = 30.5 g)"
+        }
+      ],
+      "components": [
+        {
+          "molecule": "water",
+          "grams_per_100g": 93.6757
+        },
+        {
+          "molecule": "protein",
+          "grams_per_100g": 1.65769
+        },
+        {
+          "molecule": "fat",
+          "grams_per_100g": 1.65918
+        },
+        {
+          "molecule": "caffeine",
+          "grams_per_100g": 0.0197005
+        },
+        {
+          "molecule": "potassium",
+          "grams_per_100g": 0.0911215
+        },
+        {
+          "molecule": "sodium",
+          "grams_per_100g": 0.022807
+        },
+        {
+          "molecule": "calcium",
+          "grams_per_100g": 0.0583311
+        },
+        {
+          "molecule": "magnesium",
+          "grams_per_100g": 0.00655241
+        },
+        {
+          "molecule": "phosphorus",
+          "grams_per_100g": 0.0441065
+        },
+        {
+          "molecule": "iron",
+          "grams_per_100g": 2.01498e-05
+        },
+        {
+          "molecule": "zinc",
+          "grams_per_100g": 0.000197621
+        },
+        {
+          "molecule": "lactose",
+          "grams_per_100g": 2.56281
+        },
+        {
+          "molecule": "beta_carotene",
+          "grams_per_100g": 3.55241e-06
+        }
+      ]
+    },
+    {
+      "id": "milk",
+      "names": {
+        "es": "Leche entera",
+        "ca": "Llet sencera",
+        "en": "Whole milk"
+      },
+      "portion_grams": 257.8,
+      "portion_names": {
+        "es": "un vaso (250 ml)",
+        "ca": "un got (250 ml)",
+        "en": "a glass (250 ml)"
+      },
+      "portion_source": "1 fl oz = 30.5 g",
+      "sources": [
+        {
+          "fdc_id": 171265,
+          "description": "Milk, whole, 3.25% milkfat, with added vitamin D",
+          "data_type": "SR Legacy"
+        }
+      ],
+      "components": [
+        {
+          "molecule": "water",
+          "grams_per_100g": 88.13
+        },
+        {
+          "molecule": "protein",
+          "grams_per_100g": 3.15
+        },
+        {
+          "molecule": "fat",
+          "grams_per_100g": 3.25
+        },
+        {
+          "molecule": "lactose",
+          "grams_per_100g": 5.05
+        },
+        {
+          "molecule": "beta_carotene",
+          "grams_per_100g": 7e-06
+        },
+        {
+          "molecule": "potassium",
+          "grams_per_100g": 0.132
+        },
+        {
+          "molecule": "sodium",
+          "grams_per_100g": 0.043
+        },
+        {
+          "molecule": "calcium",
+          "grams_per_100g": 0.113
+        },
+        {
+          "molecule": "magnesium",
+          "grams_per_100g": 0.01
+        },
+        {
+          "molecule": "phosphorus",
+          "grams_per_100g": 0.084
+        },
+        {
+          "molecule": "iron",
+          "grams_per_100g": 3e-05
+        },
+        {
+          "molecule": "zinc",
+          "grams_per_100g": 0.00037
+        }
+      ]
+    },
+    {
+      "id": "apple",
+      "names": {
+        "es": "Manzana",
+        "ca": "Poma",
+        "en": "Apple"
+      },
+      "portion_grams": 182.0,
+      "portion_names": {
+        "es": "una manzana mediana",
+        "ca": "una poma mitjana",
+        "en": "a medium apple"
+      },
+      "portion_source": "1 medium (3\" dia) = 182 g",
+      "sources": [
+        {
+          "fdc_id": 171688,
+          "description": "Apples, raw, with skin (Includes foods for USDA's Food Distribution Program)",
+          "data_type": "SR Legacy"
+        }
+      ],
+      "components": [
+        {
+          "molecule": "water",
+          "grams_per_100g": 85.56
+        },
+        {
+          "molecule": "protein",
+          "grams_per_100g": 0.26
+        },
+        {
+          "molecule": "fat",
+          "grams_per_100g": 0.17
+        },
+        {
+          "molecule": "sucrose",
+          "grams_per_100g": 2.07
+        },
+        {
+          "molecule": "glucose",
+          "grams_per_100g": 2.43
+        },
+        {
+          "molecule": "fructose",
+          "grams_per_100g": 5.9
+        },
+        {
+          "molecule": "starch",
+          "grams_per_100g": 0.05
+        },
+        {
+          "molecule": "fiber",
+          "grams_per_100g": 2.4
+        },
+        {
+          "molecule": "vitamin_c",
+          "grams_per_100g": 0.0046
+        },
+        {
+          "molecule": "beta_carotene",
+          "grams_per_100g": 2.7e-05
+        },
+        {
+          "molecule": "potassium",
+          "grams_per_100g": 0.107
+        },
+        {
+          "molecule": "sodium",
+          "grams_per_100g": 0.001
+        },
+        {
+          "molecule": "calcium",
+          "grams_per_100g": 0.006
+        },
+        {
+          "molecule": "magnesium",
+          "grams_per_100g": 0.005
+        },
+        {
+          "molecule": "phosphorus",
+          "grams_per_100g": 0.011
+        },
+        {
+          "molecule": "iron",
+          "grams_per_100g": 0.00012
+        },
+        {
+          "molecule": "zinc",
+          "grams_per_100g": 4e-05
+        }
+      ]
+    },
+    {
+      "id": "pickle",
+      "names": {
+        "es": "Pepinillo en vinagre",
+        "ca": "Cogombret en vinagre",
+        "en": "Dill pickle"
+      },
+      "portion_grams": 135.0,
+      "portion_names": {
+        "es": "un pepinillo grande (10 cm)",
+        "ca": "un cogombret gran (10 cm)",
+        "en": "a large pickle (10 cm)"
+      },
+      "portion_source": "1 large (4\" long) = 135 g",
+      "sources": [
+        {
+          "fdc_id": 168558,
+          "description": "Pickles, cucumber, dill or kosher dill",
+          "data_type": "SR Legacy"
+        }
+      ],
+      "components": [
+        {
+          "molecule": "water",
+          "grams_per_100g": 94.34
+        },
+        {
+          "molecule": "protein",
+          "grams_per_100g": 0.5
+        },
+        {
+          "molecule": "fat",
+          "grams_per_100g": 0.3
+        },
+        {
+          "molecule": "glucose",
+          "grams_per_100g": 0.52
+        },
+        {
+          "molecule": "fructose",
+          "grams_per_100g": 0.55
+        },
+        {
+          "molecule": "fiber",
+          "grams_per_100g": 1.0
+        },
+        {
+          "molecule": "vitamin_c",
+          "grams_per_100g": 0.0023
+        },
+        {
+          "molecule": "beta_carotene",
+          "grams_per_100g": 5.3e-05
+        },
+        {
+          "molecule": "potassium",
+          "grams_per_100g": 0.117
+        },
+        {
+          "molecule": "sodium",
+          "grams_per_100g": 0.809
+        },
+        {
+          "molecule": "calcium",
+          "grams_per_100g": 0.057
+        },
+        {
+          "molecule": "magnesium",
+          "grams_per_100g": 0.007
+        },
+        {
+          "molecule": "phosphorus",
+          "grams_per_100g": 0.016
+        },
+        {
+          "molecule": "iron",
+          "grams_per_100g": 0.00026
+        },
+        {
+          "molecule": "zinc",
+          "grams_per_100g": 0.0001
+        }
+      ]
+    },
+    {
+      "id": "carrot",
+      "names": {
+        "es": "Zanahoria",
+        "ca": "Pastanaga",
+        "en": "Carrot"
+      },
+      "portion_grams": 61.0,
+      "portion_names": {
+        "es": "una zanahoria mediana",
+        "ca": "una pastanaga mitjana",
+        "en": "a medium carrot"
+      },
+      "portion_source": "1 medium = 61 g",
+      "sources": [
+        {
+          "fdc_id": 170393,
+          "description": "Carrots, raw",
+          "data_type": "SR Legacy"
+        }
+      ],
+      "components": [
+        {
+          "molecule": "water",
+          "grams_per_100g": 88.29
+        },
+        {
+          "molecule": "protein",
+          "grams_per_100g": 0.93
+        },
+        {
+          "molecule": "fat",
+          "grams_per_100g": 0.24
+        },
+        {
+          "molecule": "sucrose",
+          "grams_per_100g": 3.59
+        },
+        {
+          "molecule": "glucose",
+          "grams_per_100g": 0.59
+        },
+        {
+          "molecule": "fructose",
+          "grams_per_100g": 0.55
+        },
+        {
+          "molecule": "starch",
+          "grams_per_100g": 1.43
+        },
+        {
+          "molecule": "fiber",
+          "grams_per_100g": 2.8
+        },
+        {
+          "molecule": "vitamin_c",
+          "grams_per_100g": 0.0059
+        },
+        {
+          "molecule": "beta_carotene",
+          "grams_per_100g": 0.008285
+        },
+        {
+          "molecule": "potassium",
+          "grams_per_100g": 0.32
+        },
+        {
+          "molecule": "sodium",
+          "grams_per_100g": 0.069
+        },
+        {
+          "molecule": "calcium",
+          "grams_per_100g": 0.033
+        },
+        {
+          "molecule": "magnesium",
+          "grams_per_100g": 0.012
+        },
+        {
+          "molecule": "phosphorus",
+          "grams_per_100g": 0.035
+        },
+        {
+          "molecule": "iron",
+          "grams_per_100g": 0.0003
+        },
+        {
+          "molecule": "zinc",
+          "grams_per_100g": 0.00024
+        }
+      ]
+    }
+  ]
+}
