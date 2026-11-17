@@ -72,6 +72,13 @@ también el famoso **problema del litio**. Puedes cambiar los parámetros (bario
 de neutrinos, vida media del neutrón) para ver **cómo serían los primeros átomos en otros
 universos**.
 
+### 🍎 ¿Qué moléculas hay en…?
+¿Cuántas moléculas de agua hay en una cerveza? ¿Y cuántos quarks en una zanahoria? Elige un alimento
+de ejemplo (cerveza, café con leche, leche, manzana, pepinillo, zanahoria), con datos reales de
+**USDA FoodData Central**, y mira sus moléculas, átomos, protones, neutrones, electrones y quarks.
+También puedes **crear tus propios alimentos** (con las moléculas del catálogo o cualquier fórmula) y
+guardarlos en tu biblioteca.
+
 ## 🚀 Instalación
 
 ### 1. Lo que necesitas
@@ -108,7 +115,7 @@ python main.py
 ```
 
 La primera vez te pregunta el idioma (inglés, castellano o catalán) y lo recuerda. Se puede cambiar
-con la opción **4] Language · Idioma** del menú principal, o con la tecla **L** dentro del visor.
+con la opción **5] Language · Idioma** del menú principal, o con la tecla **L** dentro del visor.
 
 ## 🎮 Cómo se usa
 
@@ -194,6 +201,8 @@ los tres primeros minutos, las fuentes de los datos y las correcciones respecto 
 - **Partículas:** Particle Data Group, *Review of Particle Physics* 2024.
 - **Nucleosíntesis:** tasas nucleares de Coc et al. (2015), Serpico et al. (2004) y otros (la
   lista, en [docs/TECNICO.md](docs/TECNICO.md#las-reacciones-de-la-red)); observaciones del PDG 2026.
+- **Alimentos:** USDA FoodData Central (SR Legacy, dominio público); proteínas con la «averagina» de
+  Senko et al. (1995).
 - **Inspiración:** Steven Weinberg, *Los tres primeros minutos del universo*.
 
 La lista completa está en [docs/TECNICO.md](docs/TECNICO.md#datos-y-fuentes).

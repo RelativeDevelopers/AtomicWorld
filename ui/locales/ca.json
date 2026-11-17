@@ -257,6 +257,7 @@
       "table": "Taula periòdica",
       "model": "Model Estàndard",
       "universe": "Els tres primers minuts (Big Bang)",
+      "foods": "Quines molècules hi ha a…? (aliments)",
       "goodbye": "Fins a la propera."
     },
     "table": {
@@ -396,6 +397,53 @@
       "capped": "Se'n faran servir 1.000.000 (més trigaria massa).",
       "your_universe": "El teu univers: {helium} nuclis d'heli i {hydrogen} d'hidrogen → {pct} % d'heli en massa.",
       "run_again": "Torna-ho a provar: amb pocs nucleons l'atzar pesa molt; amb molts, sempre surt ~25 %."
+    },
+    "foods": {
+      "menu_title": "Quines molècules hi ha a…?",
+      "option_samples": "Aliments d'exemple (cervesa, cafè amb llet, poma…)",
+      "option_library": "La meva biblioteca",
+      "option_create": "Crear un aliment",
+      "samples_title": "Aliments d'exemple",
+      "library_title": "La meva biblioteca",
+      "no_samples": "Falten els aliments d'exemple: executa python tools/build_foods.py.",
+      "library_empty": "La teva biblioteca és buida. Crea un aliment amb l'opció 3.",
+      "ask_food": "Tria un aliment (Enter per tornar):",
+      "ask_grams": "Quants grams? [Enter = {grams} g]:",
+      "col_molecule": "Molècula",
+      "col_grams": "Massa",
+      "col_count": "Quantes n'hi ha",
+      "counted": {
+        "molecule": "molècules",
+        "unit": "unitats",
+        "model": "molècules",
+        "element": "àtoms"
+      },
+      "unidentified": "Sense identificar",
+      "totals": "En total",
+      "quarks": "Quarks",
+      "up_down": "({up} up i {down} down)",
+      "models": {
+        "averagine": "Proteïnes: es compten els seus aminoàcids, amb la composició de l'aminoàcid mitjà (Senko et al. 1995).",
+        "glucose_unit": "Midó i fibra: cadenes de glucosa; se'n compten les baules (C6H10O5).",
+        "triolein": "Greixos: es compten com a trioleïna, el triglicèrid més comú (un model)."
+      },
+      "minerals_note": "Minerals: hi són com a ions; se'n compten els àtoms.",
+      "unidentified_note": "Sense identificar: el que la font no desglossa en molècules (àcids, aromes, altres hidrats de carboni…).",
+      "source": "Font: USDA FoodData Central ({ids}).",
+      "custom_source": "Aliment creat per tu.",
+      "view": "Veure'n les molècules",
+      "delete": "Esborrar-lo",
+      "confirm_delete": "Vols esborrar «{name}» de la teva biblioteca? (s/n):",
+      "deleted": "Esborrat.",
+      "create_intro": "Crea el teu aliment: digues quines molècules té i quants grams de cadascuna hi ha en 100 g.",
+      "ask_name": "Nom de l'aliment:",
+      "ask_portion": "Pes d'una porció, en grams",
+      "so_far": "Portes {total} g de cada 100 g. Afegeix una altra molècula:",
+      "formula_option": "Una altra molècula: escriu-ne la fórmula",
+      "ask_component": "Molècula (número, F per a una fórmula, ? per veure la llista, Enter per acabar):",
+      "ask_component_grams": "Grams en 100 g de l'aliment",
+      "saved": "Desat a la teva biblioteca.",
+      "library_full": "La teva biblioteca és plena ({maximum} aliments): esborra'n algun per desar-ne més."
     }
   },
   "errors": {
@@ -409,7 +457,18 @@
     "unknown_symbols": "No hi ha cap element amb el símbol {symbols}. Recorda: majúscula i minúscula (Co és cobalt; CO, carboni i oxigen).",
     "zero_molar_mass": "La massa molar de {formula} surt 0.",
     "invalid_formula": "La fórmula no és vàlida.",
-    "unknown_unit": "Unitat de massa desconeguda: {unit}."
+    "unknown_unit": "Unitat de massa desconeguda: {unit}.",
+    "missing_name": "L'aliment necessita un nom.",
+    "no_components": "L'aliment no té cap molècula.",
+    "unknown_molecule": "No conec la molècula «{molecule}».",
+    "over_100": "Les molècules sumen {total} g en 100 g: no poden passar de 100 g.",
+    "too_small": "Un valor és massa petit.",
+    "too_big": "Un valor és massa gran.",
+    "not_a_number": "Un valor no és un número.",
+    "too_long": "Un text és massa llarg (màxim {maximum} caràcters).",
+    "too_many_components": "Massa molècules (màxim {maximum}).",
+    "invalid_food": "L'aliment no és vàlid.",
+    "unknown_food": "No conec aquest aliment."
   },
   "events": {
     "freeze_out": "Es congelen les interaccions febles: n/p deixa de seguir l'equilibri",

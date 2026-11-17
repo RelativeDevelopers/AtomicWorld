@@ -257,6 +257,7 @@
       "table": "Tabla periódica",
       "model": "Modelo Estándar",
       "universe": "Los tres primeros minutos (Big Bang)",
+      "foods": "¿Qué moléculas hay en…? (alimentos)",
       "goodbye": "Hasta la próxima."
     },
     "table": {
@@ -396,6 +397,53 @@
       "capped": "Se usarán 1.000.000 (más tardaría demasiado).",
       "your_universe": "Tu universo: {helium} núcleos de helio y {hydrogen} de hidrógeno → {pct} % de helio en masa.",
       "run_again": "Repítelo: con pocos nucleones el azar pesa mucho; con muchos, siempre sale ~25 %."
+    },
+    "foods": {
+      "menu_title": "¿Qué moléculas hay en…?",
+      "option_samples": "Alimentos de ejemplo (cerveza, café con leche, manzana…)",
+      "option_library": "Mi biblioteca",
+      "option_create": "Crear un alimento",
+      "samples_title": "Alimentos de ejemplo",
+      "library_title": "Mi biblioteca",
+      "no_samples": "Faltan los alimentos de ejemplo: ejecuta python tools/build_foods.py.",
+      "library_empty": "Tu biblioteca está vacía. Crea un alimento con la opción 3.",
+      "ask_food": "Elige un alimento (Enter para volver):",
+      "ask_grams": "¿Cuántos gramos? [Enter = {grams} g]:",
+      "col_molecule": "Molécula",
+      "col_grams": "Masa",
+      "col_count": "Cuántas hay",
+      "counted": {
+        "molecule": "moléculas",
+        "unit": "unidades",
+        "model": "moléculas",
+        "element": "átomos"
+      },
+      "unidentified": "Sin identificar",
+      "totals": "En total",
+      "quarks": "Quarks",
+      "up_down": "({up} up y {down} down)",
+      "models": {
+        "averagine": "Proteínas: se cuentan sus aminoácidos, con la composición del aminoácido medio (Senko et al. 1995).",
+        "glucose_unit": "Almidón y fibra: cadenas de glucosa; se cuentan sus eslabones (C6H10O5).",
+        "triolein": "Grasas: se cuentan como trioleína, el triglicérido más común (un modelo)."
+      },
+      "minerals_note": "Minerales: están como iones; se cuentan sus átomos.",
+      "unidentified_note": "Sin identificar: lo que la fuente no desglosa en moléculas (ácidos, aromas, otros hidratos de carbono…).",
+      "source": "Fuente: USDA FoodData Central ({ids}).",
+      "custom_source": "Alimento creado por ti.",
+      "view": "Ver sus moléculas",
+      "delete": "Borrarlo",
+      "confirm_delete": "¿Borrar «{name}» de tu biblioteca? (s/n):",
+      "deleted": "Borrado.",
+      "create_intro": "Crea tu alimento: di qué moléculas tiene y cuántos gramos de cada una hay en 100 g.",
+      "ask_name": "Nombre del alimento:",
+      "ask_portion": "Peso de una porción, en gramos",
+      "so_far": "Llevas {total} g de cada 100 g. Añade otra molécula:",
+      "formula_option": "Otra molécula: escribe su fórmula",
+      "ask_component": "Molécula (número, F para una fórmula, ? para ver la lista, Enter para terminar):",
+      "ask_component_grams": "Gramos en 100 g del alimento",
+      "saved": "Guardado en tu biblioteca.",
+      "library_full": "Tu biblioteca está llena ({maximum} alimentos): borra alguno para guardar más."
     }
   },
   "errors": {
@@ -409,7 +457,18 @@
     "unknown_symbols": "No existe ningún elemento con el símbolo {symbols}. Recuerda: mayúscula y minúscula (Co es cobalto; CO, carbono y oxígeno).",
     "zero_molar_mass": "La masa molar de {formula} sale 0.",
     "invalid_formula": "La fórmula no es válida.",
-    "unknown_unit": "Unidad de masa desconocida: {unit}."
+    "unknown_unit": "Unidad de masa desconocida: {unit}.",
+    "missing_name": "El alimento necesita un nombre.",
+    "no_components": "El alimento no tiene ninguna molécula.",
+    "unknown_molecule": "No conozco la molécula «{molecule}».",
+    "over_100": "Las moléculas suman {total} g en 100 g: no pueden pasar de 100 g.",
+    "too_small": "Un valor es demasiado pequeño.",
+    "too_big": "Un valor es demasiado grande.",
+    "not_a_number": "Un valor no es un número.",
+    "too_long": "Un texto es demasiado largo (máximo {maximum} caracteres).",
+    "too_many_components": "Demasiadas moléculas (máximo {maximum}).",
+    "invalid_food": "El alimento no es válido.",
+    "unknown_food": "No conozco ese alimento."
   },
   "events": {
     "freeze_out": "Se congelan las interacciones débiles: n/p deja de seguir el equilibrio",

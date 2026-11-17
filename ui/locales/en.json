@@ -257,6 +257,7 @@
       "table": "Periodic Table",
       "model": "Standard Model",
       "universe": "The First Three Minutes (Big Bang)",
+      "foods": "What molecules are in…? (food)",
       "goodbye": "Until next time."
     },
     "table": {
@@ -396,6 +397,53 @@
       "capped": "Using 1,000,000 (more would take too long).",
       "your_universe": "Your universe: {helium} helium nuclei and {hydrogen} hydrogen nuclei → {pct} % helium by mass.",
       "run_again": "Run it again: with few nucleons chance matters a lot; with many, you always get ~25 %."
+    },
+    "foods": {
+      "menu_title": "What molecules are in…?",
+      "option_samples": "Sample foods (beer, white coffee, apple…)",
+      "option_library": "My library",
+      "option_create": "Create a food",
+      "samples_title": "Sample foods",
+      "library_title": "My library",
+      "no_samples": "The sample foods are missing: run python tools/build_foods.py.",
+      "library_empty": "Your library is empty. Create a food with option 3.",
+      "ask_food": "Choose a food (Enter to go back):",
+      "ask_grams": "How many grams? [Enter = {grams} g]:",
+      "col_molecule": "Molecule",
+      "col_grams": "Mass",
+      "col_count": "How many",
+      "counted": {
+        "molecule": "molecules",
+        "unit": "units",
+        "model": "molecules",
+        "element": "atoms"
+      },
+      "unidentified": "Unidentified",
+      "totals": "In total",
+      "quarks": "Quarks",
+      "up_down": "({up} up and {down} down)",
+      "models": {
+        "averagine": "Proteins: their amino acids are counted, with the composition of the average amino acid (Senko et al. 1995).",
+        "glucose_unit": "Starch and fibre: chains of glucose; their links (C6H10O5) are counted.",
+        "triolein": "Fats: counted as triolein, the most common triglyceride (a model)."
+      },
+      "minerals_note": "Minerals: they are there as ions; their atoms are counted.",
+      "unidentified_note": "Unidentified: what the source does not break down into molecules (acids, aromas, other carbohydrates…).",
+      "source": "Source: USDA FoodData Central ({ids}).",
+      "custom_source": "A food you created.",
+      "view": "See its molecules",
+      "delete": "Delete it",
+      "confirm_delete": "Delete «{name}» from your library? (y/n):",
+      "deleted": "Deleted.",
+      "create_intro": "Create your food: say which molecules it has and how many grams of each are in 100 g.",
+      "ask_name": "Name of the food:",
+      "ask_portion": "Weight of a portion, in grams",
+      "so_far": "So far {total} g of every 100 g. Add another molecule:",
+      "formula_option": "Another molecule: type its formula",
+      "ask_component": "Molecule (number, F for a formula, ? to see the list, Enter to finish):",
+      "ask_component_grams": "Grams in 100 g of the food",
+      "saved": "Saved to your library.",
+      "library_full": "Your library is full ({maximum} foods): delete some to save more."
     }
   },
   "errors": {
@@ -409,7 +457,18 @@
     "unknown_symbols": "There is no element with the symbol {symbols}. Remember upper and lower case (Co is cobalt; CO is carbon and oxygen).",
     "zero_molar_mass": "The molar mass of {formula} comes out as 0.",
     "invalid_formula": "The formula isn't valid.",
-    "unknown_unit": "Unknown mass unit: {unit}."
+    "unknown_unit": "Unknown mass unit: {unit}.",
+    "missing_name": "The food needs a name.",
+    "no_components": "The food has no molecules.",
+    "unknown_molecule": "I don't know the molecule «{molecule}».",
+    "over_100": "The molecules add up to {total} g in 100 g: they cannot go over 100 g.",
+    "too_small": "A value is too small.",
+    "too_big": "A value is too big.",
+    "not_a_number": "A value is not a number.",
+    "too_long": "A text is too long (at most {maximum} characters).",
+    "too_many_components": "Too many molecules (at most {maximum}).",
+    "invalid_food": "The food is not valid.",
+    "unknown_food": "I don't know that food."
   },
   "events": {
     "freeze_out": "Weak interactions freeze out: n/p stops following equilibrium",

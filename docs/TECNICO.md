@@ -59,14 +59,18 @@ AtomicWorld/
 │   ├── bigbang.py           Juego de bits, transformaciones y coincidencias
 │   ├── nucleosynthesis.py   Los tres primeros minutos: n/p, D, ³He, ⁴He y ⁷Li
 │   ├── nuclear_rates.py     Las 18 reacciones nucleares de la red, con su fuente
+│   ├── foods.py             ¿Qué moléculas hay en…? Alimentos -> moléculas -> quarks
 │   └── data/
 │       ├── elements.json    Tabla periódica
 │       ├── isotopes.json    Los ~3.500 isótopos conocidos
 │       ├── particles.json   Modelo Estándar
+│       ├── food_molecules.json  Moléculas de los alimentos (y sus modelos)
+│       ├── foods.json       Alimentos de ejemplo (lo genera tools/build_foods.py)
 │       └── names/           en.json, es.json, ca.json
 ├── ui/                      PRESENTACIÓN (escritorio)
 │   ├── colors.py            Colores de consola
 │   ├── cli.py               Menús de consola
+│   ├── library.py           Tu biblioteca de alimentos (~/.atomicworld/library.json)
 │   ├── launcher.py          Abre el visor 3D en otro proceso
 │   ├── i18n.py              Traductor: textos, plurales, números y "de/d'" en catalán
 │   ├── settings.py          Idioma guardado (~/.atomicworld/settings.json)
@@ -79,7 +83,7 @@ AtomicWorld/
 │   ├── levels/              atom.py, nucleus.py, nucleon.py
 │   └── render/              Puntos, líneas y shaders
 ├── tests/                   Tests automáticos (pytest)
-├── tools/                   build_data.py, viewer_render_test.py, convert_legacy.py
+├── tools/                   build_data.py, build_foods.py, viewer_render_test.py, convert_legacy.py
 └── legacy/                  Script original, como referencia
 ```
 
@@ -212,6 +216,44 @@ reúne las mismas fuentes; se compararon con las originales en C y coinciden has
 cifra. En la tabla de D(d,p)T, la copia de AlterBBN tiene una errata en T9 = 1,5 (2,882·10⁷,
 entre 1,565·10⁷ y 2,181·10⁷): aquí va 1,882·10⁷. Los tests comparan los resultados con AlterBBN
 para tres valores de η.
+
+## ¿Qué moléculas hay en…?
+
+`atomicworld/foods.py`. Un alimento es una lista de componentes con sus gramos en 100 g. Para una
+masa dada, cada componente se convierte en moléculas (gramos ÷ masa molar × N_A) y estas en átomos,
+protones, neutrones (la media de los isótopos naturales, como en la calculadora), electrones
+(átomos neutros) y quarks (protón = uud, neutrón = udd).
+
+**Lo que no es una sola molécula se cuenta con un modelo**, y la consola y la web lo dicen:
+
+| Componente | Se cuenta como | Fuente |
+|---|---|---|
+| Proteínas | Aminoácidos medios: C₄.₉₃₈₄H₇.₇₅₈₃N₁.₃₅₇₇O₁.₄₇₇₃S₀.₀₄₁₇ (111,1254 Da) | «Averagina»: Senko, Beu y McLafferty, *J. Am. Soc. Mass Spectrom.* 6, 229 (1995) |
+| Almidón y fibra | Unidades de glucosa, C₆H₁₀O₅ | Son cadenas de glucosa (cada eslabón pierde una molécula de agua) |
+| Grasas | Trioleína, C₅₇H₁₀₄O₆ | Modelo: el triglicérido del ácido graso más común |
+| Minerales (K, Na, Ca, Mg, P, Fe, Zn) | Átomos | En el alimento son iones; los electrones se cuentan como neutros |
+
+**Alimentos de ejemplo** (`data/foods.json`): cerveza, café con leche, leche entera, manzana,
+pepinillo y zanahoria, de **USDA FoodData Central, SR Legacy** (dominio público, CC0). Los genera
+`tools/build_foods.py` con la API de FoodData Central: busca cada alimento por su descripción exacta,
+pasa sus nutrientes a moléculas y toma el peso de la porción de las porciones de FDC (las bebidas, por
+volumen, con la densidad que dan sus porciones en tazas u onzas). En `foods.json` queda el número FDC
+de cada uno. El café con leche es una mezcla: 100 ml de café (FDC 171890) + 100 ml de leche (FDC
+171265).
+
+```bash
+setx FDC_API_KEY "tu-clave"        # una vez, en Windows (clave gratuita: fdc.nal.usda.gov/api-key-signup)
+python tools/build_foods.py         # sin clave usa DEMO_KEY, con un límite de peticiones por hora
+```
+
+La clave **nunca** va en el repositorio (FoodData Central desactiva las que aparecen en internet).
+
+**Lo que la fuente no desglosa** en moléculas (ácidos orgánicos, aromas, hidratos de carbono sin
+desglosar, como los 3,6 g de la cerveza) aparece como «sin identificar»: no se inventa.
+
+**Alimentos propios:** moléculas del catálogo o cualquier fórmula química, hasta 40 componentes que
+no pueden pasar de 100 g en 100 g. En el escritorio se guardan en `~/.atomicworld/library.json`; en la
+web, en el navegador (localStorage), con exportar e importar a un archivo del mismo formato.
 
 ## Datos y fuentes
 

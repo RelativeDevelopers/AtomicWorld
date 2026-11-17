@@ -5,14 +5,14 @@ muestra los resultados. Los textos salen de ui/locales/ (sección "console"); lo
 del núcleo llegan como códigos (FormulaError.code, UnitError.code) y se traducen aquí,
 igual que hace la web.
 """
-from atomicworld import bigbang, names
+from atomicworld import bigbang, foods, names
 from atomicworld import nucleosynthesis as nuc
 from atomicworld import units
 from atomicworld.chemistry import FormulaError, MoleculeAnalysis, analyze, validate_formula
 from atomicworld.repository import IsotopeTable, ParticleCatalog, PeriodicTable
 
 from . import colors as c
-from . import launcher, settings
+from . import launcher, library, settings
 from .i18n import LANGUAGES, Translator, language_names
 
 tr = Translator()
@@ -585,6 +585,221 @@ def nucleosynthesis_menu() -> None:
             invalid_option()
 
 
+# --- ¿Qué moléculas hay en…? -----------------------------------------------------------
+
+def food_name(food: foods.Food) -> str:
+    return food.name(tr.lang)
+
+
+def molecule_name(molecule: foods.FoodMolecule) -> str:
+    return molecule.name(tr.lang)
+
+
+def grams_text(grams: float) -> str:
+    """Gramos legibles: 182 g, 0,5 g, 4,6 mg, 5,3 µg."""
+    if grams >= 1:
+        return f"{tr.num(grams, 1).rstrip('0').rstrip(tr.dec)} g"
+    if grams >= 1e-3:
+        return f"{tr.num(grams * 1e3, 1).rstrip('0').rstrip(tr.dec)} mg"
+    return f"{tr.num(grams * 1e6, 1).rstrip('0').rstrip(tr.dec)} µg"
+
+
+def print_food(result: foods.FoodAnalysis) -> None:
+    food = result.food
+    portion = food.portion_name(tr.lang)
+    print(f"\n{c.rainbow_title(food_name(food))}")
+    print("  " + (f"{portion} · " if portion and result.grams == food.portion_grams else "")
+          + grams_text(result.grams))
+    width = max([len(molecule_name(r.molecule)) for r in result.components] + [12]) + 2
+    print(f"\n  {T('foods.col_molecule'):<{width}}{T('foods.col_grams'):>10}   {T('foods.col_count')}")
+    models = set()
+    for r in result.components:
+        mark = "*" if r.molecule.kind in ("unit", "model") else ("°" if r.molecule.kind == "element" else "")
+        if r.molecule.source:
+            models.add(r.molecule.source)
+        word = T(f"foods.counted.{r.molecule.kind}")
+        print(f"  {molecule_name(r.molecule) + mark:<{width}}{grams_text(r.grams):>10}   {fmt(r.units)} {word}")
+    if result.unidentified_grams > 1e-9:
+        print(f"  {c.paint(T('foods.unidentified'), c.YELLOW):<{width + 9}}{grams_text(result.unidentified_grams):>10}")
+
+    print(f"\n  {c.BOLD}{T('foods.totals')}{c.RESET}")
+    for label, value in (("molecules", result.molecules), ("atoms", result.atoms),
+                         ("protons", result.protons), ("neutrons", result.neutrons),
+                         ("electrons", result.electrons), ("quarks", result.quarks)):
+        print(f"    {T('molecule.' + label) if label != 'quarks' else T('foods.quarks'):<11}: {fmt(value)}")
+    print("    " + T("foods.up_down", up=fmt(result.up_quarks), down=fmt(result.down_quarks)))
+
+    print()
+    for key in sorted(models):
+        print("  * " + T(f"foods.models.{key}"))
+    if any(r.molecule.kind == "element" for r in result.components):
+        print("  ° " + T("foods.minerals_note"))
+    if result.unidentified_grams > 1e-9:
+        print("  " + T("foods.unidentified_note"))
+    if food.sources:
+        ids = ", ".join(f"FDC {s['fdc_id']}" for s in food.sources if "fdc_id" in s)
+        print("  " + T("foods.source", ids=ids))
+    elif food.custom:
+        print("  " + T("foods.custom_source"))
+
+
+def ask_portion_grams(food: foods.Food) -> float:
+    g = lambda v: tr.num(v, 1).rstrip("0").rstrip(tr.dec)
+    while True:
+        text = ask(T("foods.ask_grams", grams=g(food.portion_grams)) + " ")
+        if not text:
+            return food.portion_grams
+        try:
+            value = parse_number(text)
+            if 0 < value <= foods.MAX_PORTION_GRAMS:
+                return value
+        except ValueError:
+            pass
+        print(c.paint("  " + T("input.between", minimum="0", maximum=g(foods.MAX_PORTION_GRAMS)), c.RED))
+
+
+def show_food(food: foods.Food) -> None:
+    print_food(foods.analyze_food(food, ask_portion_grams(food)))
+
+
+def choose_food(items: list[foods.Food]) -> foods.Food | None:
+    for i, food in enumerate(items, start=1):
+        portion = food.portion_name(tr.lang)
+        print(f"   {i:>2}] {food_name(food)}" + (f"  ({portion})" if portion else ""))
+    while True:
+        text = ask("\n" + T("foods.ask_food") + " ")
+        if not text:
+            return None
+        if text.isdigit() and 1 <= int(text) <= len(items):
+            return items[int(text) - 1]
+        invalid_option()
+
+
+def sample_foods_menu() -> None:
+    samples = list(foods.sample_foods())
+    if not samples:
+        print(c.paint(T("foods.no_samples"), c.YELLOW))
+        return
+    print(f"\n{c.BOLD}{T('foods.samples_title')}{c.RESET}")
+    food = choose_food(samples)
+    if food:
+        show_food(food)
+
+
+def library_menu() -> None:
+    items = library.load()
+    if not items:
+        print("\n" + T("foods.library_empty"))
+        return
+    print(f"\n{c.BOLD}{T('foods.library_title')}{c.RESET}")
+    food = choose_food(items)
+    if not food:
+        return
+    print(f"\n  1] {T('foods.view')}\n  2] {T('foods.delete')}")
+    option = ask(T("menu.what"))
+    if option == "1":
+        show_food(food)
+    elif option == "2":
+        if ask(T("foods.confirm_delete", name=food_name(food)) + " ").lower() in ("s", "y", "sí", "si", "yes"):
+            items.remove(food)
+            library.save(items)
+            print(T("foods.deleted"))
+    else:
+        invalid_option()
+
+
+def create_food(table: PeriodicTable) -> None:
+    print("\n" + T("foods.create_intro"))
+    name = ""
+    while not name:
+        name = ask(T("foods.ask_name") + " ")[:foods.MAX_NAME_LENGTH]
+    portion = ask_float_default("  " + T("foods.ask_portion"), 100.0, 0.001, foods.MAX_PORTION_GRAMS)
+    catalog = list(foods.molecules().values())
+    components: list[dict] = []
+
+    def show_catalog() -> None:
+        for i, m in enumerate(catalog, start=1):
+            formula = f" ({m.formula})" if m.kind == "molecule" else ""
+            print(f"   {i:>2}] {molecule_name(m)}{formula}")
+        print(f"    F] {T('foods.formula_option')}")
+
+    print()
+    show_catalog()
+    while True:
+        total = sum(x["grams_per_100g"] for x in components)
+        print(f"\n  {T('foods.so_far', total=tr.num(total, 1))}")
+        text = ask(T("foods.ask_component") + " ").strip()
+        if not text:
+            break
+        if text == "?":
+            show_catalog()
+            continue
+        if text.lower() == "f":
+            formula = ask(T("molecule.ask_formula"))
+            try:
+                validate_formula(formula, table)
+            except FormulaError as exc:
+                print(c.paint("  " + error_text(exc), c.RED))
+                continue
+            item = {"formula": formula}
+        elif text.isdigit() and 1 <= int(text) <= len(catalog):
+            item = {"molecule": catalog[int(text) - 1].key}
+        else:
+            invalid_option()
+            continue
+        left = 100.0 - total
+        if left <= 0:
+            print(c.paint("  " + error_text(foods.FoodError("", "over_100", total=tr.num(total, 1))), c.RED))
+            break
+        item["grams_per_100g"] = ask_float_default("  " + T("foods.ask_component_grams"), min(1.0, left), 1e-9, left)
+        components.append(item)
+    if not components:
+        return
+    existing = library.load()
+    try:
+        food = foods.food_from_dict({"id": _unique_id(name, existing), "names": {tr.lang: name},
+                                     "portion_grams": portion, "components": components}, table)
+    except ValueError as exc:
+        print(c.paint("  " + error_text(exc), c.RED))
+        return
+    print_food(foods.analyze_food(food))
+    if len(existing) >= foods.MAX_LIBRARY_FOODS:
+        print(c.paint(T("foods.library_full", maximum=foods.MAX_LIBRARY_FOODS), c.RED))
+    elif library.save(existing + [food]):
+        print("\n" + c.paint(T("foods.saved"), c.GREEN))
+
+
+def _unique_id(name: str, existing: list[foods.Food]) -> str:
+    base = foods._slug(name)
+    taken = {f.id for f in existing}
+    n, candidate = 2, base
+    while candidate in taken:
+        candidate, n = f"{base}-{n}", n + 1
+    return candidate
+
+
+def foods_menu(table: PeriodicTable) -> None:
+    while True:
+        print(f"""
+            {T('foods.menu_title')}
+            [0] {T('menu.back')}
+             1] {T('foods.option_samples')}
+             2] {T('foods.option_library')}
+             3] {T('foods.option_create')}
+        """)
+        option = ask(T("menu.what"))
+        if option == "0":
+            return
+        elif option == "1":
+            sample_foods_menu()
+        elif option == "2":
+            library_menu()
+        elif option == "3":
+            create_food(table)
+        else:
+            invalid_option()
+
+
 # --- Menú principal ------------------------------------------------------------
 
 def run() -> None:
@@ -603,7 +818,8 @@ def run() -> None:
                     1] {T('main.table')}
                     2] {T('main.model')}
                     3] {T('main.universe')}
-                    4] Language · Idioma
+                    4] {T('main.foods')}
+                    5] Language · Idioma
             """)
             option = ask(T("menu.select"))
             if option == "0":
@@ -615,6 +831,8 @@ def run() -> None:
             elif option == "3":
                 nucleosynthesis_menu()
             elif option == "4":
+                foods_menu(table)
+            elif option == "5":
                 choose_language()
             else:
                 invalid_option()

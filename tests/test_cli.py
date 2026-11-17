@@ -7,7 +7,7 @@ import re
 
 import pytest
 
-from ui import cli, launcher, settings
+from ui import cli, launcher, library, settings
 
 # Un recorrido por todas las opciones (la primera línea responde a "¿qué idioma?")
 SESSION = [
@@ -23,8 +23,15 @@ SESSION = [
     "0",
     "3",                                   # Los tres primeros minutos
     "1", "2", "", "", "", "3", "500", "4", "0",
+    "4",                                   # ¿Qué moléculas hay en…?
+    "1", "4", "",                          # ejemplo: manzana, con su porción
+    "2",                                   # biblioteca vacía
+    "3", "Salmuera", "250", "1", "90", "F", "Xx", "F", "NaCl", "10", "",   # crear: agua + NaCl
+    "2", "1", "1", "500",                  # verla con 500 g
+    "2", "1", "2", "s",                    # borrarla
+    "0",
     "9",                                   # opción no válida
-    "4", "3",                              # cambiar el idioma a catalán
+    "5", "3",                              # cambiar el idioma a catalán
     "0",
 ]
 LANG_CHOICE = {"en": "1", "es": "2", "ca": "3"}
@@ -34,6 +41,7 @@ EXPECTED = {"en": "Until next time.", "es": "Hasta la próxima.", "ca": "Fins a 
 @pytest.fixture
 def isolated(monkeypatch, tmp_path):
     monkeypatch.setattr(settings, "SETTINGS_FILE", tmp_path / "settings.json")
+    monkeypatch.setattr(library, "LIBRARY_FILE", tmp_path / "library.json")
     opened = []
     monkeypatch.setattr(launcher, "open_viewer", lambda el, iso, lang=None: opened.append((el.symbol, iso.a, lang)))
     monkeypatch.setattr(launcher, "missing_dependencies", lambda: "")
@@ -55,6 +63,8 @@ def test_whole_console_in_every_language(lang, isolated, monkeypatch, capsys):
     assert isolated == [("Au", 197, lang)]                    # el visor se abre en el idioma elegido
     assert EXPECTED["ca"] in out                              # al final se cambió a catalán
     assert settings.language() == "ca"
+    assert "NaCl" in out and "FDC 171688" in out            # alimento propio y fuente de la manzana
+    assert library.load() == []                               # se creó y se borró
 
 
 def test_language_is_asked_only_the_first_time(isolated, monkeypatch, capsys):
