@@ -26,8 +26,8 @@ def test_particle_masses_in_kg(name, kg):
 
 
 def test_proton_in_kg_and_u():
-    proton = units.Mass(938.27208816)
-    assert proton.kg == pytest.approx(1.67262192e-27, rel=1e-7)
+    proton = units.Mass(938.27208943)                         # CODATA 2022
+    assert proton.kg == pytest.approx(1.67262192595e-27, rel=1e-9)
     assert proton.to("u") == pytest.approx(1.007276467, rel=1e-8)
     assert proton.proton_masses == pytest.approx(1.0, rel=1e-6)
 

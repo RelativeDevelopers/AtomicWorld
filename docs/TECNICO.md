@@ -48,6 +48,8 @@ AtomicWorld/
 │   ├── repository.py        Carga los JSON y hace búsquedas (en cualquier idioma)
 │   ├── names.py             Nombres de elementos y partículas en inglés, castellano y catalán
 │   ├── atoms.py             Configuración electrónica, reglas de Slater y radio del núcleo
+│   ├── web_assets/          Interfaz común de los visores web (v3d-ui.js/.css, v3d-plastic.js e
+│   │                        imágenes): la sirven las webs de AtomicWorld y DNAinvent en /static/v3d/
 │   ├── scene/               Física de los visores 3D (necesita NumPy: pip install atomicworld[scene])
 │   │   ├── orbitals.py      Nubes de electrones, orbitales reales p/d/f, regla de Hund
 │   │   ├── nucleus.py       Empaquetado de nucleones, Woods–Saxon
@@ -55,7 +57,8 @@ AtomicWorld/
 │   ├── chemistry.py         Fórmula → moles → átomos → quarks
 │   ├── units.py             Conversor de masas: eV/c², u, g y kg
 │   ├── bigbang.py           Juego de bits, transformaciones y coincidencias
-│   ├── nucleosynthesis.py   Los tres primeros minutos: n/p, deuterio y helio
+│   ├── nucleosynthesis.py   Los tres primeros minutos: n/p, D, ³He, ⁴He y ⁷Li
+│   ├── nuclear_rates.py     Las 18 reacciones nucleares de la red, con su fuente
 │   └── data/
 │       ├── elements.json    Tabla periódica
 │       ├── isotopes.json    Los ~3.500 isótopos conocidos
@@ -130,29 +133,85 @@ Los tests comparan los kilogramos con los valores medidos de CODATA 2022.
 
 ## Los tres primeros minutos
 
-La simulación sigue al universo desde 10¹¹ K (0.01 s) hasta 10⁸ K (~3.5 h):
+La simulación sigue al universo desde 2·10¹¹ K (0,002 s) hasta 10⁸ K (~3,5 h):
 
 1. Neutrones y protones se transforman entre sí por interacciones débiles.
 2. Hacia 1 s y 10¹⁰ K esas reacciones se "congelan": queda ~1 neutrón por cada 5–6 protones.
 3. Los neutrones libres se desintegran mientras el universo se enfría.
 4. Cuello de botella del deuterio: los fotones rompen el deuterio en cuanto se forma.
 5. Hacia los 3–4 minutos (≈ 9·10⁸ K) el deuterio sobrevive y los neutrones acaban en helio-4.
+   Quedan restos de deuterio, helio-3 (y tritio) y litio-7 (y berilio-7).
 
-**Modelo:** expansión de Friedmann con la aniquilación e⁺e⁻ tratada por conservación de
-entropía; tasas débiles de Mukhanov (2004); desintegración del neutrón; mini red nuclear
-n + p ⇄ D + γ (Saha) y D + D → ⁴He (efectiva). No calcula ³He ni ⁷Li.
+**Modelo** (`atomicworld/nucleosynthesis.py` y `atomicworld/nuclear_rates.py`):
 
-| Magnitud | AtomicWorld | Referencia |
-|---|---|---|
-| Helio-4, Y_p | 0.245 | 0.247 (códigos completos), 0.245 ± 0.003 (observado) |
-| D/H | 3.0·10⁻⁵ | 2.55·10⁻⁵ (observado) — el modelo solo da el orden de magnitud |
-| ΔY por especie de neutrino | +0.013 | +0.013 |
-| Tiempos de los fotogramas de Weinberg | ±10 % | *Los tres primeros minutos* |
+- **Expansión:** Friedmann con fotones, e± y N_ν especies de neutrinos. La aniquilación e⁺e⁻ se
+  trata con conservación de entropía, así que T_ν/T = (4/11)^⅓ sale sola. La densidad de
+  bariones sigue a la entropía: η es la proporción de hoy, y antes de la aniquilación había
+  menos fotones por barión.
+- **Tasas débiles n ⇄ p:** integrales de Born completas de las seis reacciones (n + ν ⇄ p + e⁻,
+  n + e⁺ ⇄ p + ν̄, n ⇄ p + e⁻ + ν̄), con las distribuciones de Fermi-Dirac de e± y neutrinos,
+  normalizadas con la vida media medida (Weinberg 1972; Bernstein, Brown y Feinberg 1989). Se
+  calculan una vez en una rejilla de temperaturas y se interpolan.
+- **Red nuclear:** 8 núcleos (n, p, D, T, ³He, ⁴He, ⁷Li, ⁷Be) y 18 reacciones, las de la tabla
+  de abajo. Las reacciones inversas (por ejemplo D + γ → n + p) salen por balance detallado,
+  con los coeficientes de Wagoner (1969) y Kawano (1992); un test comprueba el de p(n,γ)D con
+  los espines y las masas.
+- **Integración:** BDF2 de paso variable, implícito y resuelto con Newton, porque las
+  reacciones con fotones son hasta 10¹⁵ veces más rápidas que el paso. 2.500 pasos en
+  progresión geométrica; cuatro quintas partes, por debajo de 0,5 MeV. Doblar los pasos
+  cambia los resultados menos de un 0,1 %.
+- **Correcciones a las tasas débiles:** Born no incluye las correcciones radiativas (con la de
+  Coulomb) ni la masa finita de los nucleones. Según PRIMAT suben Y_p en 44·10⁻⁴, un 1,8 %
+  (Pitrou et al., *Phys. Rep.* 754, 1, 2018; tabla 2 de arXiv:1909.12046). Se aplican al Y_p
+  final (`helium_fraction`); el de la red sin corregir está en `helium_fraction_born`, y la curva
+  del gráfico es la de la red.
+
+| Magnitud | AtomicWorld | Códigos completos¹ | AlterBBN 2.2² | Observado³ |
+|---|---|---|---|---|
+| Y_p (helio-4, fracción de masa) | 0,2468 | 0,2469 ± 0,0002 | 0,2452 | 0,245 ± 0,003 |
+| Y_p con Born, sin correcciones | 0,2424 | 0,2427⁴ | — | — |
+| D/H (×10⁻⁵) | 2,42 | 2,57 ± 0,13 | 2,33 | 2,508 ± 0,029 |
+| ³He/H (×10⁻⁵) | 1,02 | 1,00 ± 0,09 | 1,02 | no se puede medir |
+| ⁷Li/H (×10⁻¹⁰) | 5,37 | 4,72 ± 0,72 | 5,69 | 1,45 ± 0,25 |
+| ΔY_p por especie de neutrino | +0,013 | +0,013 | +0,013 | — |
+| Tiempos de los fotogramas de Weinberg | ±10 % | — | — | *Los tres primeros minutos* |
+
+¹ Fields, Olive, Yeh y Young, *JCAP* 03, 010 (2020), con el η de Planck (y PRIMAT para Y_p:
+0,24709). ² Con los mismos parámetros que AtomicWorld (η = 6,1·10⁻¹⁰, 3 neutrinos, τ = 878,4 s).
+³ PDG 2026, revisión *Big-Bang Nucleosynthesis* (B. Fields, P. Molaro y S. Sarkar, agosto de
+2025). ⁴ PRIMAT menos sus correcciones (0,24709 − 0,0044).
+
+Las diferencias entre los códigos completos vienen sobre todo de las tasas medidas de las
+reacciones del deuterio y del ³He(α,γ)⁷Be, que cada grupo evalúa a su manera. La del litio no
+se arregla con ninguna de ellas: es el **problema del litio**, la teoría da unas 3 veces más
+litio del que se ve en las estrellas más viejas de la Galaxia.
+
+**El tritio y el berilio-7** siguen vivos al terminar la simulación (semividas de 12 años y de
+53 días). Se cuentan como ³He y ⁷Li, que es en lo que acaban, igual que en los códigos completos.
 
 Se pueden cambiar η (bariones por fotón), el número de especies de neutrinos y la vida
-media del neutrón para ver cómo sería el helio en otros universos. El modo "partícula a
+media del neutrón para ver cómo sería el universo en otros casos. El modo "partícula a
 partícula" hace lo mismo con N nucleones que cambian al azar: con pocos, el resultado
 fluctúa; con muchos, converge al 25 %.
+
+### Las reacciones de la red
+
+| Reacción | Fuente de la tasa |
+|---|---|
+| p(n,γ)D | Ando et al., *Phys. Rev. C* 74, 025809 (2006) |
+| D(p,γ)³He, D(d,n)³He, D(d,p)T | Coc et al., *Phys. Rev. D* 92, 123526 (2015), tablas |
+| ³He(n,p)T, ⁷Be(n,p)⁷Li, ⁷Li(p,α)⁴He, T(α,γ)⁷Li, T(d,n)⁴He, ³He(d,p)⁴He, ⁷Li(d,nα)⁴He | Serpico et al., *JCAP* 12, 010 (2004) |
+| ³He(α,γ)⁷Be | Cyburt y Davids, *Phys. Rev. C* 78, 064614 (2008) |
+| ⁷Be(n,α)⁴He | Hou et al., *Phys. Rev. C* 91, 055802 (2015) |
+| ³He(³He,2p)⁴He | NACRE, Angulo et al., *Nucl. Phys. A* 656, 3 (1999) |
+| T(p,γ)⁴He, ⁷Be(d,pα)⁴He | Caughlan y Fowler, *At. Data Nucl. Data Tables* 40, 283 (1988) |
+| D(n,γ)T, ³He(n,γ)⁴He | Wagoner, *ApJS* 18, 247 (1969) |
+
+Las fórmulas se pasaron a Python desde AlterBBN 2.2 (Arbey et al., arXiv:1806.11095), que
+reúne las mismas fuentes; se compararon con las originales en C y coinciden hasta la última
+cifra. En la tabla de D(d,p)T, la copia de AlterBBN tiene una errata en T9 = 1,5 (2,882·10⁷,
+entre 1,565·10⁷ y 2,181·10⁷): aquí va 1,882·10⁷. Los tests comparan los resultados con AlterBBN
+para tres valores de η.
 
 ## Datos y fuentes
 
@@ -167,10 +226,12 @@ solo para ese script; el programa no lo necesita).
 | Radios de van der Waals y colores | `mendeleev` (radios de Alvarez/Bondi; colores de Jmol) |
 | Masas de quarks, leptones y bosones | Particle Data Group, *Review of Particle Physics* 2024 |
 | Masa del neutrino electrónico (< 0.45 eV) | KATRIN, *Science* 2025 |
-| Masas del protón y el neutrón | CODATA 2018 |
-| Tasas débiles y criterio del deuterio | V. Mukhanov, *Nucleosynthesis without a computer* (2004) |
-| n + p → D + γ | Ando et al., *Phys. Rev. C* 74 (2006) |
-| Abundancias observadas de He y D | PDG 2024, revisión *Big-Bang Nucleosynthesis* |
+| Masas del protón y el neutrón | CODATA 2022 |
+| Tasas débiles n ⇄ p | Aproximación de Born (Weinberg 1972; Bernstein, Brown y Feinberg, *Rev. Mod. Phys.* 61, 25, 1989) |
+| Correcciones a las tasas débiles | Pitrou et al., *Phys. Rep.* 754, 1 (2018) |
+| Reacciones nucleares de la nucleosíntesis | Ver [Las reacciones de la red](#las-reacciones-de-la-red) |
+| Abundancias observadas de He, D y Li | PDG 2026, revisión *Big-Bang Nucleosynthesis* (agosto de 2025) |
+| Abundancias predichas por los códigos completos | Fields et al., *JCAP* 03, 010 (2020) |
 
 Cada elemento guarda dos valores de neutrones:
 

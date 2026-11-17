@@ -66,9 +66,11 @@ Hay tres modos (tecla **Tab**):
 
 ### 💥 Los tres primeros minutos
 Una simulación de la **nucleosíntesis primordial**, inspirada en el libro de Steven Weinberg: sigue
-al universo desde la primera centésima de segundo hasta que se forma el helio. Puedes cambiar los
-parámetros (bariones por fotón, número de neutrinos, vida media del neutrón) para ver **cómo sería
-el helio en otros universos**.
+al universo desde las primeras milésimas de segundo hasta que se forman el **helio-4, el deuterio, el
+helio-3 y el litio-7**, con una red de 18 reacciones nucleares medidas en el laboratorio. Verás
+también el famoso **problema del litio**. Puedes cambiar los parámetros (bariones por fotón, número
+de neutrinos, vida media del neutrón) para ver **cómo serían los primeros átomos en otros
+universos**.
 
 ## 🚀 Instalación
 
@@ -149,8 +151,8 @@ python -m viewer O --mode plastic         # empezar en el modo plástico 3D
 
 AtomicWorld intenta enseñar ciencia de verdad: los orbitales tienen su forma real y se llenan según
 la regla de Hund, el núcleo tiene su tamaño y densidad reales, las masas de las partículas son las
-del Particle Data Group (2024) y la simulación del Big Bang da un **24,5 % de helio**, como el
-observado.
+del Particle Data Group (2024) y la simulación del Big Bang da un **24,7 % de helio** y la misma
+cantidad de deuterio, helio-3 y litio que los programas de los cosmólogos.
 
 También tiene sus simplificaciones: el átomo está aislado, no hay efectos relativistas, el núcleo es
 una "gota líquida" y el movimiento de los quarks es una ilustración, porque en física cuántica no
@@ -190,8 +192,8 @@ los tres primeros minutos, las fuentes de los datos y las correcciones respecto 
 
 - **Elementos e isótopos:** base de datos `mendeleev` (IUPAC/CIAAW, NUBASE).
 - **Partículas:** Particle Data Group, *Review of Particle Physics* 2024.
-- **Nucleosíntesis:** V. Mukhanov, *Nucleosynthesis without a computer* (2004), y Ando et al.,
-  *Phys. Rev. C* 74 (2006).
+- **Nucleosíntesis:** tasas nucleares de Coc et al. (2015), Serpico et al. (2004) y otros (la
+  lista, en [docs/TECNICO.md](docs/TECNICO.md#las-reacciones-de-la-red)); observaciones del PDG 2026.
 - **Inspiración:** Steven Weinberg, *Los tres primeros minutos del universo*.
 
 La lista completa está en [docs/TECNICO.md](docs/TECNICO.md#datos-y-fuentes).

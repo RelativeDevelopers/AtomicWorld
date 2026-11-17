@@ -8,6 +8,7 @@ import random
 
 import pytest
 
+from atomicworld import nuclear_rates as nr
 from atomicworld import nucleosynthesis as nuc
 
 RESULT = nuc.simulate()
@@ -80,22 +81,106 @@ def test_deuterium_bottleneck_timing():
     assert 150 < snap.time_s < 300                      # "unos tres minutos"
 
 
+def all_fractions(s: nuc.Snapshot) -> list[float]:
+    return [s.neutron_fraction, s.proton_fraction, s.deuterium_fraction, s.tritium_fraction,
+            s.helium3_fraction, s.helium_fraction, s.lithium7_fraction, s.beryllium7_fraction]
+
+
 def test_mass_is_conserved():
     for s in RESULT.history[:: 50]:
-        total = s.neutron_fraction + s.proton_fraction + s.deuterium_fraction + s.helium_fraction
-        assert total == pytest.approx(1.0, abs=1e-9)
-        assert min(s.neutron_fraction, s.proton_fraction, s.deuterium_fraction, s.helium_fraction) >= 0
+        assert sum(all_fractions(s)) == pytest.approx(1.0, abs=1e-9)
+        assert min(all_fractions(s)) >= 0
+
+
+def test_detailed_balance_coefficients():
+    # p(n,γ)D: REV = (g_n·g_p/g_D)·(m_n·m_p/m_D)^{3/2} con los espines (1/2, 1/2, 1) y las masas
+    # en u; Q9 = energía de enlace del deuterio en unidades de 10⁹ K
+    name, _r, _p, _f, rev, q9, photon = nr.REACTIONS[0]
+    assert name == "p(n,γ)D" and photon
+    assert rev == pytest.approx(2 * 2 / 3 * (1.008665 * 1.007825 / 2.014102) ** 1.5, rel=0.005)
+    assert q9 == pytest.approx(nuc.DEUTERON_BINDING_MEV * nuc.MEV_TO_KELVIN / 1e9, rel=1e-3)
+
+
+def test_reactions_conserve_nucleons_and_charge():
+    charge = (0, 1, 1, 1, 2, 2, 3, 4)
+    for name, reac, prod, *_ in nr.REACTIONS:
+        assert sum(nr.MASS_NUMBER[i] for i in reac) == sum(nr.MASS_NUMBER[i] for i in prod), name
+        assert sum(charge[i] for i in reac) == sum(charge[i] for i in prod), name
+
+
+@pytest.mark.parametrize("t9", [0.01, 0.05, 0.1, 0.3, 0.8, 1.5, 3.0, 9.0])
+def test_nuclear_rates_are_positive(t9):
+    assert all(rate(t9) >= 0 for _n, _r, _p, rate, *_ in nr.REACTIONS)
+
+
+def test_rate_tables_hit_their_grid_points():
+    assert nr.rate_d_p(0.1) == pytest.approx(5.676, rel=1e-9)        # Coc et al. 2015
+    assert nr.rate_dd_n(1.0) == pytest.approx(1.442e7, rel=1e-9)
+
+
+# --- Tasas débiles ---------------------------------------------------------------
+
+def test_weak_rate_is_neutron_decay_when_cold():
+    lam_np, lam_pn = nuc.weak_rates(0.003, 878.4)
+    assert lam_np == pytest.approx(1 / 878.4, rel=1e-3)
+    assert lam_pn < 1e-30
+
+
+def test_weak_rates_detailed_balance_when_hot():
+    # Antes de la aniquilación T_ν = T, y λ(p→n)/λ(n→p) = e^(−Q/T)
+    lam_np, lam_pn = nuc.weak_rates(5.0)
+    assert lam_pn / lam_np == pytest.approx(math.exp(-nuc.Q_MEV / 5.0), rel=0.01)
+
+
+def test_weak_rate_grows_as_t5():
+    # A T ≫ Q, λ ∝ T⁵ (Weinberg): ×32 al doblar la temperatura
+    assert nuc.weak_rates(10.0)[0] / nuc.weak_rates(5.0)[0] == pytest.approx(32, rel=0.1)
 
 
 # --- Resultados frente a observaciones -----------------------------------------------
 
 def test_primordial_helium():
-    assert RESULT.helium_fraction == pytest.approx(nuc.STANDARD_BBN_HELIUM, abs=0.006)
-    assert RESULT.helium_fraction == pytest.approx(nuc.OBSERVED_HELIUM, abs=0.006)
+    assert RESULT.helium_fraction == pytest.approx(nuc.STANDARD_BBN_HELIUM, abs=0.001)
+    assert RESULT.helium_fraction == pytest.approx(nuc.OBSERVED_HELIUM, abs=0.003)   # 1σ
+    # Sin las correcciones a las tasas débiles, como en el cálculo de Born de PRIMAT (0,2427)
+    assert RESULT.helium_fraction_born == pytest.approx(0.2427, abs=0.0005)
 
 
-def test_deuterium_order_of_magnitude():
-    assert 1e-5 < RESULT.deuterium_to_hydrogen < 6e-5
+def test_deuterium():
+    assert RESULT.deuterium_to_hydrogen == pytest.approx(nuc.STANDARD_BBN_D_TO_H, rel=0.07)
+    assert RESULT.deuterium_to_hydrogen == pytest.approx(nuc.OBSERVED_D_TO_H, rel=0.05)
+
+
+def test_helium3():
+    assert RESULT.helium3_to_hydrogen == pytest.approx(nuc.STANDARD_BBN_HE3_TO_H, rel=0.05)
+
+
+def test_lithium7_and_the_lithium_problem():
+    li = RESULT.lithium7_to_hydrogen
+    assert 4.5e-10 < li < 6.0e-10                       # códigos completos: 4.7–5.5·10⁻¹⁰
+    assert li > 3 * nuc.OBSERVED_LI7_TO_H               # el problema del litio
+    # A 3.5 h casi todo el litio es todavía ⁷Be (luego captura un electrón)
+    assert RESULT.final.beryllium7_fraction > RESULT.final.lithium7_fraction
+
+
+@pytest.mark.parametrize("eta, alterbbn", [
+    # AlterBBN 2.2 (Arbey et al. 2018), alter_etannutau.x η 3 0 878.4: D/H, ³He/H, ⁷Li/H
+    (6.1e-10, (2.325e-5, 1.022e-5, 5.686e-10)),
+    (3e-10, (7.186e-5, 1.582e-5, 1.367e-10)),
+    (1e-9, (9.706e-6, 7.857e-6, 1.338e-9)),
+])
+def test_agrees_with_alterbbn(eta, alterbbn):
+    result = RESULT if eta == nuc.DEFAULT_ETA else nuc.simulate(eta=eta)
+    d, he3, li = alterbbn
+    assert result.deuterium_to_hydrogen == pytest.approx(d, rel=0.06)
+    assert result.helium3_to_hydrogen == pytest.approx(he3, rel=0.03)
+    assert result.lithium7_to_hydrogen == pytest.approx(li, rel=0.08)
+
+
+def test_numerical_convergence():
+    fine = nuc.simulate(steps=5000)
+    assert RESULT.deuterium_to_hydrogen == pytest.approx(fine.deuterium_to_hydrogen, rel=0.003)
+    assert RESULT.lithium7_to_hydrogen == pytest.approx(fine.lithium7_to_hydrogen, rel=0.003)
 
 
 def test_more_neutrino_species_more_helium():
@@ -109,6 +194,8 @@ def test_more_baryons_more_helium_less_deuterium():
     high = nuc.simulate(eta=1e-9, steps=800)
     assert high.helium_fraction > low.helium_fraction
     assert high.deuterium_to_hydrogen < low.deuterium_to_hydrogen
+    assert high.helium3_to_hydrogen < low.helium3_to_hydrogen
+    assert high.lithium7_to_hydrogen > low.lithium7_to_hydrogen      # rama del ⁷Be
 
 
 def test_longer_neutron_lifetime_more_helium():

@@ -7,9 +7,9 @@ AVOGADRO = 6.02214076e23
 QUARKS_PER_PROTON = {"up": 2, "down": 1}
 QUARKS_PER_NEUTRON = {"up": 1, "down": 2}
 
-# Masas en reposo de los nucleones (CODATA 2018), en MeV/c²
-PROTON_MASS_MEV = 938.27208816
-NEUTRON_MASS_MEV = 939.56542052
+# Masas en reposo de los nucleones (CODATA 2022), en MeV/c²
+PROTON_MASS_MEV = 938.27208943
+NEUTRON_MASS_MEV = 939.56542194
 
 # Bits por byte en la simulación del Big Bang
 BITS_PER_BYTE = 8

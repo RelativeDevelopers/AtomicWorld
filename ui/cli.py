@@ -494,8 +494,15 @@ def print_nucleosynthesis(result: nuc.NucleosynthesisResult) -> None:
     print("    " + T("universe.helium", value=pct(result.helium_fraction),
                        observed=pct(nuc.OBSERVED_HELIUM), standard=pct(nuc.STANDARD_BBN_HELIUM)))
     print("    " + T("universe.hydrogen", value=pct(result.hydrogen_fraction)))
-    print("    " + T("universe.deuterium", value=f"{result.deuterium_to_hydrogen:.1e}".replace(".", tr.dec),
-                       observed=f"{nuc.OBSERVED_D_TO_H:.2e}".replace(".", tr.dec)))
+    sci = lambda x: f"{x:.2e}".replace(".", tr.dec)
+    print("    " + T("universe.deuterium", value=sci(result.deuterium_to_hydrogen),
+                       observed=sci(nuc.OBSERVED_D_TO_H), standard=sci(nuc.STANDARD_BBN_D_TO_H)))
+    print("    " + T("universe.helium3", value=sci(result.helium3_to_hydrogen),
+                       standard=sci(nuc.STANDARD_BBN_HE3_TO_H)))
+    print("    " + T("universe.lithium7", value=sci(result.lithium7_to_hydrogen),
+                       observed=sci(nuc.OBSERVED_LI7_TO_H), standard=sci(nuc.STANDARD_BBN_LI7_TO_H)))
+    print("    " + T("universe.decay_note"))
+    print("\n  " + c.paint(T("universe.lithium_problem"), c.YELLOW))
 
 
 def ask_float_default(prompt: str, default: float, minimum: float, maximum: float) -> float:
