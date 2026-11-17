@@ -7,6 +7,7 @@ import re
 
 import pytest
 
+from atomicworld import fdc
 from ui import cli, launcher, library, settings
 
 # Un recorrido por todas las opciones (la primera línea responde a "¿qué idioma?")
@@ -29,7 +30,8 @@ SESSION = [
     "3", "Salmuera", "250", "1", "90", "F", "Xx", "F", "NaCl", "10", "",   # crear: agua + NaCl
     "2", "1", "1", "500",                  # verla con 500 g
     "2", "1", "2", "s",                    # borrarla
-    "0",
+    "4", "apple", "1", "", "s", "",        # buscar en FoodData Central (de prueba) y guardarla
+    "", "0",
     "9",                                   # opción no válida
     "5", "3",                              # cambiar el idioma a catalán
     "0",
@@ -42,6 +44,8 @@ EXPECTED = {"en": "Until next time.", "es": "Hasta la próxima.", "ca": "Fins a 
 def isolated(monkeypatch, tmp_path):
     monkeypatch.setattr(settings, "SETTINGS_FILE", tmp_path / "settings.json")
     monkeypatch.setattr(library, "LIBRARY_FILE", tmp_path / "library.json")
+    from tests.test_fdc import DETAIL, SEARCH       # FoodData Central de prueba, sin internet
+    monkeypatch.setattr(fdc, "_request", lambda path, body=None: SEARCH if path == "/foods/search" else DETAIL)
     opened = []
     monkeypatch.setattr(launcher, "open_viewer", lambda el, iso, lang=None: opened.append((el.symbol, iso.a, lang)))
     monkeypatch.setattr(launcher, "missing_dependencies", lambda: "")
@@ -64,7 +68,8 @@ def test_whole_console_in_every_language(lang, isolated, monkeypatch, capsys):
     assert EXPECTED["ca"] in out                              # al final se cambió a catalán
     assert settings.language() == "ca"
     assert "NaCl" in out and "FDC 171688" in out            # alimento propio y fuente de la manzana
-    assert library.load() == []                               # se creó y se borró
+    saved = library.load()                                    # la salmuera se borró; la manzana de FDC, guardada
+    assert [f.sources[0]["fdc_id"] for f in saved] == [171688]
 
 
 def test_language_is_asked_only_the_first_time(isolated, monkeypatch, capsys):

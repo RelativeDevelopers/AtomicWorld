@@ -403,6 +403,7 @@
       "option_samples": "Alimentos de ejemplo (cerveza, café con leche, manzana…)",
       "option_library": "Mi biblioteca",
       "option_create": "Crear un alimento",
+      "option_search": "Buscar en FoodData Central (en inglés)",
       "samples_title": "Alimentos de ejemplo",
       "library_title": "Mi biblioteca",
       "no_samples": "Faltan los alimentos de ejemplo: ejecuta python tools/build_foods.py.",
@@ -443,7 +444,13 @@
       "ask_component": "Molécula (número, F para una fórmula, ? para ver la lista, Enter para terminar):",
       "ask_component_grams": "Gramos en 100 g del alimento",
       "saved": "Guardado en tu biblioteca.",
-      "library_full": "Tu biblioteca está llena ({maximum} alimentos): borra alguno para guardar más."
+      "library_full": "Tu biblioteca está llena ({maximum} alimentos): borra alguno para guardar más.",
+      "search_intro": "Busca cualquier alimento en USDA FoodData Central. Escribe en inglés: apple, banana, chocolate, bread…",
+      "ask_query": "¿Qué alimento buscas? (Enter para volver):",
+      "searching": "Buscando en FoodData Central…",
+      "no_results": "No he encontrado nada. Prueba con otra palabra en inglés.",
+      "ask_save": "¿Guardarlo en tu biblioteca? (s/n):",
+      "ask_save_name": "Nombre en tu biblioteca [Enter = {name}]:"
     }
   },
   "errors": {
@@ -468,7 +475,12 @@
     "too_long": "Un texto es demasiado largo (máximo {maximum} caracteres).",
     "too_many_components": "Demasiadas moléculas (máximo {maximum}).",
     "invalid_food": "El alimento no es válido.",
-    "unknown_food": "No conozco ese alimento."
+    "unknown_food": "No conozco ese alimento.",
+    "rate_limited": "FoodData Central recibe demasiadas peticiones con esta clave. Espera un rato y vuelve a probar.",
+    "bad_key": "FoodData Central no acepta la clave de la API (FDC_API_KEY).",
+    "network": "No se puede conectar con FoodData Central. ¿Hay internet?",
+    "not_found": "Ese alimento no está en FoodData Central.",
+    "no_composition": "FoodData Central no tiene la composición de este alimento: prueba con otro."
   },
   "events": {
     "freeze_out": "Se congelan las interacciones débiles: n/p deja de seguir el equilibrio",

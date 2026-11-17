@@ -403,6 +403,7 @@
       "option_samples": "Aliments d'exemple (cervesa, cafè amb llet, poma…)",
       "option_library": "La meva biblioteca",
       "option_create": "Crear un aliment",
+      "option_search": "Cercar a FoodData Central (en anglès)",
       "samples_title": "Aliments d'exemple",
       "library_title": "La meva biblioteca",
       "no_samples": "Falten els aliments d'exemple: executa python tools/build_foods.py.",
@@ -443,7 +444,13 @@
       "ask_component": "Molècula (número, F per a una fórmula, ? per veure la llista, Enter per acabar):",
       "ask_component_grams": "Grams en 100 g de l'aliment",
       "saved": "Desat a la teva biblioteca.",
-      "library_full": "La teva biblioteca és plena ({maximum} aliments): esborra'n algun per desar-ne més."
+      "library_full": "La teva biblioteca és plena ({maximum} aliments): esborra'n algun per desar-ne més.",
+      "search_intro": "Cerca qualsevol aliment a USDA FoodData Central. Escriu en anglès: apple, banana, chocolate, bread…",
+      "ask_query": "Quin aliment cerques? (Enter per tornar):",
+      "searching": "Cercant a FoodData Central…",
+      "no_results": "No he trobat res. Prova amb una altra paraula en anglès.",
+      "ask_save": "El vols desar a la teva biblioteca? (s/n):",
+      "ask_save_name": "Nom a la teva biblioteca [Enter = {name}]:"
     }
   },
   "errors": {
@@ -468,7 +475,12 @@
     "too_long": "Un text és massa llarg (màxim {maximum} caràcters).",
     "too_many_components": "Massa molècules (màxim {maximum}).",
     "invalid_food": "L'aliment no és vàlid.",
-    "unknown_food": "No conec aquest aliment."
+    "unknown_food": "No conec aquest aliment.",
+    "rate_limited": "FoodData Central rep massa peticions amb aquesta clau. Espera una estona i torna-ho a provar.",
+    "bad_key": "FoodData Central no accepta la clau de l'API (FDC_API_KEY).",
+    "network": "No es pot connectar amb FoodData Central. Hi ha internet?",
+    "not_found": "Aquest aliment no és a FoodData Central.",
+    "no_composition": "FoodData Central no té la composició d'aquest aliment: prova'n un altre."
   },
   "events": {
     "freeze_out": "Es congelen les interaccions febles: n/p deixa de seguir l'equilibri",

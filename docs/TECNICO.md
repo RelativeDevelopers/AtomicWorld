@@ -60,6 +60,7 @@ AtomicWorld/
 │   ├── nucleosynthesis.py   Los tres primeros minutos: n/p, D, ³He, ⁴He y ⁷Li
 │   ├── nuclear_rates.py     Las 18 reacciones nucleares de la red, con su fuente
 │   ├── foods.py             ¿Qué moléculas hay en…? Alimentos -> moléculas -> quarks
+│   ├── fdc.py               Búsqueda en USDA FoodData Central (usa la red; clave en FDC_API_KEY)
 │   └── data/
 │       ├── elements.json    Tabla periódica
 │       ├── isotopes.json    Los ~3.500 isótopos conocidos
@@ -250,6 +251,14 @@ La clave **nunca** va en el repositorio (FoodData Central desactiva las que apar
 
 **Lo que la fuente no desglosa** en moléculas (ácidos orgánicos, aromas, hidratos de carbono sin
 desglosar, como los 3,6 g de la cerveza) aparece como «sin identificar»: no se inventa.
+
+**Buscar cualquier alimento** (`atomicworld/fdc.py`): busca en FoodData Central, en las bases
+Foundation y SR Legacy (las más completas; los nombres están en inglés), descarga el alimento elegido
+y lo convierte en moléculas igual que los ejemplos, con su primera porción de FDC y su número FDC
+como fuente. Si una ficha suma unas décimas más de 100 g por redondeos, se ajusta a 100 g. Los
+errores llegan con código (`rate_limited`, `bad_key`, `network`, `not_found`, `no_composition`).
+La clave se lee de `FDC_API_KEY`; sin ella se usa `DEMO_KEY` (unas 30 peticiones por hora). La web
+guarda en memoria las búsquedas y los alimentos ya pedidos, para gastar menos peticiones.
 
 **Alimentos propios:** moléculas del catálogo o cualquier fórmula química, hasta 40 componentes que
 no pueden pasar de 100 g en 100 g. En el escritorio se guardan en `~/.atomicworld/library.json`; en la

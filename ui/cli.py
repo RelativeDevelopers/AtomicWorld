@@ -5,7 +5,7 @@ muestra los resultados. Los textos salen de ui/locales/ (sección "console"); lo
 del núcleo llegan como códigos (FormulaError.code, UnitError.code) y se traducen aquí,
 igual que hace la web.
 """
-from atomicworld import bigbang, foods, names
+from atomicworld import bigbang, fdc, foods, names
 from atomicworld import nucleosynthesis as nuc
 from atomicworld import units
 from atomicworld.chemistry import FormulaError, MoleculeAnalysis, analyze, validate_formula
@@ -778,6 +778,54 @@ def _unique_id(name: str, existing: list[foods.Food]) -> str:
     return candidate
 
 
+def search_fdc_menu() -> None:
+    """Busca en FoodData Central, enseña el alimento y deja guardarlo en la biblioteca."""
+    print("\n" + T("foods.search_intro"))
+    while True:
+        query = ask(T("foods.ask_query") + " ")
+        if not query:
+            return
+        print("  " + T("foods.searching"))
+        try:
+            results = fdc.search(query)
+        except fdc.FdcError as exc:
+            print(c.paint("  " + error_text(exc), c.RED))
+            continue
+        if not results:
+            print("  " + T("foods.no_results"))
+            continue
+        for i, r in enumerate(results, start=1):
+            print(f"   {i:>2}] {r['description']}  ({r['data_type']})")
+        text = ask("\n" + T("foods.ask_food") + " ")
+        if not text:
+            continue
+        if not (text.isdigit() and 1 <= int(text) <= len(results)):
+            invalid_option()
+            continue
+        try:
+            food = fdc.food(results[int(text) - 1]["fdc_id"])
+        except (fdc.FdcError, ValueError) as exc:
+            print(c.paint("  " + error_text(exc), c.RED))
+            continue
+        show_food(food)
+        if ask("\n" + T("foods.ask_save") + " ").lower() in ("s", "y", "sí", "si", "yes"):
+            save_to_library(food)
+
+
+def save_to_library(food: foods.Food) -> None:
+    existing = library.load()
+    if len(existing) >= foods.MAX_LIBRARY_FOODS:
+        print(c.paint(T("foods.library_full", maximum=foods.MAX_LIBRARY_FOODS), c.RED))
+        return
+    original = food.name("en")
+    name = ask(T("foods.ask_save_name", name=original) + " ")[:foods.MAX_NAME_LENGTH] or original
+    data = food.to_dict()
+    data["names"] = {**data["names"], tr.lang: name}
+    data["id"] = _unique_id(name, existing)
+    if library.save(existing + [foods.food_from_dict(data)]):
+        print(c.paint(T("foods.saved"), c.GREEN))
+
+
 def foods_menu(table: PeriodicTable) -> None:
     while True:
         print(f"""
@@ -786,6 +834,7 @@ def foods_menu(table: PeriodicTable) -> None:
              1] {T('foods.option_samples')}
              2] {T('foods.option_library')}
              3] {T('foods.option_create')}
+             4] {T('foods.option_search')}
         """)
         option = ask(T("menu.what"))
         if option == "0":
@@ -796,6 +845,8 @@ def foods_menu(table: PeriodicTable) -> None:
             library_menu()
         elif option == "3":
             create_food(table)
+        elif option == "4":
+            search_fdc_menu()
         else:
             invalid_option()
 

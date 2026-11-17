@@ -403,6 +403,7 @@
       "option_samples": "Sample foods (beer, white coffee, apple…)",
       "option_library": "My library",
       "option_create": "Create a food",
+      "option_search": "Search FoodData Central",
       "samples_title": "Sample foods",
       "library_title": "My library",
       "no_samples": "The sample foods are missing: run python tools/build_foods.py.",
@@ -443,7 +444,13 @@
       "ask_component": "Molecule (number, F for a formula, ? to see the list, Enter to finish):",
       "ask_component_grams": "Grams in 100 g of the food",
       "saved": "Saved to your library.",
-      "library_full": "Your library is full ({maximum} foods): delete some to save more."
+      "library_full": "Your library is full ({maximum} foods): delete some to save more.",
+      "search_intro": "Search any food in USDA FoodData Central: apple, banana, chocolate, bread…",
+      "ask_query": "Which food are you looking for? (Enter to go back):",
+      "searching": "Searching FoodData Central…",
+      "no_results": "Nothing found. Try another word.",
+      "ask_save": "Save it to your library? (y/n):",
+      "ask_save_name": "Name in your library [Enter = {name}]:"
     }
   },
   "errors": {
@@ -468,7 +475,12 @@
     "too_long": "A text is too long (at most {maximum} characters).",
     "too_many_components": "Too many molecules (at most {maximum}).",
     "invalid_food": "The food is not valid.",
-    "unknown_food": "I don't know that food."
+    "unknown_food": "I don't know that food.",
+    "rate_limited": "FoodData Central is getting too many requests with this key. Wait a while and try again.",
+    "bad_key": "FoodData Central does not accept the API key (FDC_API_KEY).",
+    "network": "Cannot connect to FoodData Central. Is there internet?",
+    "not_found": "That food is not in FoodData Central.",
+    "no_composition": "FoodData Central has no composition for this food: try another one."
   },
   "events": {
     "freeze_out": "Weak interactions freeze out: n/p stops following equilibrium",

@@ -76,8 +76,13 @@ universos**.
 ¿Cuántas moléculas de agua hay en una cerveza? ¿Y cuántos quarks en una zanahoria? Elige un alimento
 de ejemplo (cerveza, café con leche, leche, manzana, pepinillo, zanahoria), con datos reales de
 **USDA FoodData Central**, y mira sus moléculas, átomos, protones, neutrones, electrones y quarks.
-También puedes **crear tus propios alimentos** (con las moléculas del catálogo o cualquier fórmula) y
-guardarlos en tu biblioteca.
+También puedes **buscar cualquier alimento** en FoodData Central (en inglés: *apple*, *chocolate*…),
+**crear los tuyos** (con las moléculas del catálogo o cualquier fórmula) y guardarlos en tu
+biblioteca.
+
+> Para buscar hace falta internet. Funciona sin clave, con un límite de unas 30 búsquedas por hora;
+> con una clave gratuita (https://fdc.nal.usda.gov/api-key-signup) guardada en la variable de entorno
+> `FDC_API_KEY` no tienes ese límite. En Windows: `setx FDC_API_KEY "tu-clave"` y abre otra ventana.
 
 ## 🚀 Instalación
 
