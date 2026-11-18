@@ -71,7 +71,7 @@ def test_food_without_composition(monkeypatch):
 
 
 def test_portion_without_portions():
-    assert fdc.portion({}) == (100.0, "100 g")
+    assert fdc.portion({}) == (100.0, "")
     assert fdc.portion({"foodPortions": [{"amount": 1, "measureUnit": {"name": "cup"}, "gramWeight": 240}]}) == (240.0, "1 cup")
 
 

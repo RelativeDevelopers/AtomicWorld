@@ -74,7 +74,7 @@ def search(query: str, limit: int = 10) -> list[dict]:
 
 def portion(detail: dict) -> tuple[float, str]:
     """La primera porción con peso que da FDC, y cómo se llama: (182.0, '1 medium (3" dia)').
-    Sin porciones: 100 g."""
+    Sin porciones: 100 g, sin nombre (para no escribir «100 g · 100 g»)."""
     for p in detail.get("foodPortions", []):
         grams = p.get("gramWeight")
         if not grams:
@@ -84,7 +84,7 @@ def portion(detail: dict) -> tuple[float, str]:
         text = " ".join(dict.fromkeys(str(w).strip() for w in words))   # sin repetir palabras iguales
         amount = p.get("amount") or 1
         return float(grams), f"{amount:g} {text}".strip() if text else f"{float(grams):g} g"
-    return 100.0, "100 g"
+    return 100.0, ""
 
 
 def food(fdc_id: int) -> foods.Food:
@@ -95,8 +95,8 @@ def food(fdc_id: int) -> foods.Food:
         "id": f"fdc-{int(detail.get('fdcId', fdc_id))}",
         "names": {"en": str(detail.get("description", f"FDC {fdc_id}"))[:foods.MAX_NAME_LENGTH]},
         "portion_grams": grams,
-        "portion_names": {"en": portion_name[:foods.MAX_NAME_LENGTH]},
-        "portion_source": f"FoodData Central: {portion_name} = {grams:g} g",
+        "portion_names": {"en": portion_name[:foods.MAX_NAME_LENGTH]} if portion_name else {},
+        "portion_source": f"FoodData Central: {portion_name} = {grams:g} g" if portion_name else "",
         "sources": [{"fdc_id": int(detail.get("fdcId", fdc_id)), "description": str(detail.get("description", "")),
                      "data_type": str(detail.get("dataType", ""))}],
         "components": foods.components_from_fdc(detail),
