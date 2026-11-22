@@ -5,6 +5,8 @@ uniform sampler2DArray u_tex;
 uniform mat4 u_proj;
 uniform float u_ball;
 uniform float u_fade;      // fundido entre niveles
+uniform float u_light;     // fondo claro: la bola sale ya invertida (atomicworld/v3d_desktop.py)
+// V3D_LIGHT
 
 in vec2 v_uv;
 in float v_layer;
@@ -23,5 +25,5 @@ void main() {
     vec3 p = v_eye_center + vec3(q, nz) * v_radius;  // punto de la superficie de la esfera
     vec4 clip = u_proj * vec4(p, 1.0);
     gl_FragDepth = clamp(clip.z / clip.w * 0.5 + 0.5, 0.0, 1.0);
-    f_color = vec4(c.rgb, a);
+    f_color = vec4(u_light > 0.5 ? v3dLight(c.rgb) : c.rgb, a);
 }

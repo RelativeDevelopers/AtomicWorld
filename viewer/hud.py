@@ -2,7 +2,8 @@
 HUD: información superpuesta, dibujada con Pillow en una textura.
 
 Se redibuja unas 8 veces por segundo (no hace falta más para texto). Todos los textos
-salen del traductor (ui/i18n.py), así que cambian al momento con la tecla L.
+salen del traductor (ui/i18n.py). El HUD no se invierte con el fondo claro (B): los paneles son
+oscuros y lo que va suelto sobre la escena (mira, barra de profundidad) cambia de color.
 """
 import math
 
@@ -48,6 +49,8 @@ class HUD:
         self.tex = None
         self.size = (0, 0)
         self.show_help = True
+        self.show_more = True         # L: la explicación «Saber más» de lo que tienes delante
+        self.light = False            # fondo claro: la mira y la barra de profundidad, oscuras
         self.message = ""
         self.message_until = 0.0
         self._fonts = {}
@@ -99,7 +102,7 @@ class HUD:
             fl = [(f, "▶ " + foc.title, (255, 255, 255, 255))]
             if foc.detail:
                 fl.append((f_small, foc.detail, (200, 210, 230, 255)))
-            for e in foc.explanation:
+            for e in (foc.explanation if self.show_more else ()):
                 fl.append((f_small, e, (255, 220, 140, 255)))
             fw = max(int(620 * k), int(max(d.textlength(t, font=fo) for fo, t, _ in fl)) + pad)
             d.rounded_rectangle([pad // 2, y - pad // 3, pad + fw, y + lh * len(fl) + 4],
@@ -124,16 +127,23 @@ class HUD:
         cx, cy, r = w // 2, h // 2, int(9 * k)
         for a, b in (((cx - r, cy), (cx - 3, cy)), ((cx + 3, cy), (cx + r, cy)),
                      ((cx, cy - r), (cx, cy - 3)), ((cx, cy + 3), (cx, cy + r))):
-            d.line([a, b], fill=(255, 255, 255, 140))
+            d.line([a, b], fill=(20, 30, 50, 170) if self.light else (255, 255, 255, 140))
 
+        # ayuda y mensajes: sobre un panel, para leerlos con los dos fondos
         if self.show_help:
             help_lines = tr.lines("viewer.hud.help")
+            top = h - pad - lh * len(help_lines)
+            width = max(d.textlength(t, font=f_small) for t in help_lines)
+            d.rounded_rectangle([pad // 2, top - pad // 3, pad + width + pad // 2, h - pad // 2],
+                                radius=int(8 * k), fill=(5, 10, 25, 150))
             for i, text in enumerate(help_lines):
-                d.text((pad, h - pad - lh * (len(help_lines) - i)), text, font=f_small,
-                       fill=(160, 175, 200, 220))
+                d.text((pad, top + lh * i), text, font=f_small, fill=(175, 190, 215, 235))
         if now < self.message_until:
             tw = d.textlength(self.message, font=f_big)
-            d.text(((w - tw) / 2, h * 0.72), self.message, font=f_big, fill=(255, 255, 255, 230))
+            x0, y0 = (w - tw) / 2, h * 0.72
+            d.rounded_rectangle([x0 - pad, y0 - pad // 3, x0 + tw + pad, y0 + lh + pad // 2],
+                                radius=int(8 * k), fill=(5, 10, 25, 150))
+            d.text((x0, y0), self.message, font=f_big, fill=(255, 255, 255, 235))
         return img
 
     def _element_card(self, d, st, w, pad, f, f_small, lh, k):
@@ -170,13 +180,14 @@ class HUD:
         def y_of(m):
             return top + (lt - math.log10(m)) / (lt - lb) * (bot - top)
 
-        d.line([x, top, x, bot], fill=(120, 140, 170, 160), width=2)
+        bar, mark = ((60, 80, 110, 200), (45, 65, 95, 235)) if self.light else ((120, 140, 170, 160), (150, 170, 200, 220))
+        d.line([x, top, x, bot], fill=bar, width=2)
         for m, key in DEPTH_MARKS:
             label = self.tr.t(f"viewer.depth_marks.{key}")
             y = y_of(m)
-            d.line([x - 6, y, x + 6, y], fill=(150, 170, 200, 200), width=2)
+            d.line([x - 6, y, x + 6, y], fill=mark, width=2)
             tw = d.textlength(label, font=font)
-            d.text((x - 14 - tw, y - 8 * k), label, font=font, fill=(150, 170, 200, 220))
+            d.text((x - 14 - tw, y - 8 * k), label, font=font, fill=mark)
         y = y_of(min(max(depth_m, BAR_BOTTOM), BAR_TOP))
         d.polygon([(x + 8, y), (x + 20, y - 7), (x + 20, y + 7)], fill=(255, 220, 120, 255))
 

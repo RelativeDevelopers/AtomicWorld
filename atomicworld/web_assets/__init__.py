@@ -1,6 +1,8 @@
 """Archivos de la interfaz de los visores 3D en el navegador, comunes a las webs de AtomicWorld y
 DNAinvent: así hay un solo archivo de cada y no copias que se separan.
 
+    controls.json            el estándar de controles de los cuatro visores (docs/CONTROLES.md)
+    v3d-controls.js          teclado, ratón y gestos táctiles según ese estándar
     v3d-ui.js / v3d-ui.css   teclas dibujadas, botones, ayuda (H) y «Saber más» (L)
     v3d-plastic.js           modo plástico 3D (bolas de plástico con WebGL 2)
     img/plastic/             sus imágenes: protón, neutrón, electrón, quarks u y d, gluón
@@ -13,5 +15,5 @@ Cada web los sirve tal cual en /static/v3d/:
 from pathlib import Path
 
 ASSETS_DIR = Path(__file__).parent
-FILES = ("v3d-ui.js", "v3d-ui.css", "v3d-plastic.js",
+FILES = ("controls.json", "v3d-controls.js", "v3d-ui.js", "v3d-ui.css", "v3d-plastic.js",
          *(f"img/plastic/{name}.webp" for name in ("proton", "neutron", "electron", "up", "down", "gluon")))

@@ -51,6 +51,7 @@ class Autopilot:
     distance: float = 0.0        # para "frame": a qué distancia del centro colocarse
     target: Optional[Callable[[], np.ndarray]] = None
     target_depth: int = -1
+    full: bool = False           # Mayús+Enter: bajar nivel a nivel hasta el final
 
 
 class Engine:
@@ -120,6 +121,32 @@ class Engine:
 
     def surface_distance(self) -> float:
         return self.level.surface_distance(self.ship.pos)
+
+    # ------------------------------------------------------------ vista inicial y gestos
+    def reset_view(self):
+        """R: vuelve a la vista del principio (fuera del átomo), sin reconstruir nada."""
+        self.stack = self.stack[:1]
+        self.transition = None
+        self.autopilot = None
+        self.ship = Ship(START_DIRECTION * self.root.view_distance(), look_at=np.zeros(3))
+
+    def nudge(self, v: np.ndarray):
+        """Un salto de la nave (rueda, dos dedos…), nunca más de lo que permite la distancia."""
+        d, n = self.surface_distance(), float(np.linalg.norm(v))
+        if n > 0.6 * d:
+            v = v * (0.6 * d / n)
+        self.ship.pos = self.ship.pos + v
+        self.autopilot = None
+
+    def zoom_by(self, f: float):
+        """f > 1: acercarse (lo que tienes delante se ve f veces más grande)."""
+        self.nudge(self.ship.forward * self.surface_distance() * (1 - 1 / f))
+
+    def pan_by(self, dx: float, dy: float, height_px: float):
+        """Mover la nave en el plano de la pantalla: lo que tienes delante sigue al ratón.
+        dx, dy en píxeles de pantalla (dy > 0 = hacia abajo)."""
+        m = 2 * self.surface_distance() * np.tan(np.radians(FOV_Y) / 2) / max(height_px, 1)
+        self.nudge(self.ship.right * (-dx * m) + self.ship.up * (dy * m))
 
     # ------------------------------------------------------------ lógica
     def update(self, dt, move, boost):
@@ -212,14 +239,14 @@ class Engine:
             self.messages.append(self.tr.t("viewer.hud.showing_orbital", name=root.orbital_label()))
 
     # ------------------------------------------------------------ autopiloto
-    def start_autopilot(self, mode: str):
-        """Enter: bajar al siguiente nivel. Retroceso: volver al anterior."""
+    def start_autopilot(self, mode: str, full: bool = False):
+        """Enter: bajar al siguiente nivel (full = Mayús+Enter: hasta los quarks). Retroceso: subir."""
         tr = self.tr
         if mode == "up" and len(self.stack) == 1 and \
                 np.linalg.norm(self.ship.pos) >= self.root.view_distance() * 0.95:
             self.messages.append(tr.t("viewer.hud.already_outside"))
             return
-        self.autopilot = Autopilot(mode, self.level.depth)
+        self.autopilot = Autopilot(mode, self.level.depth, full=full)
         if mode == "down":
             self._aim_dive()
             self.messages.append(tr.t("viewer.hud.autopilot_down", target=self._dive_label))
@@ -257,7 +284,10 @@ class Engine:
         ap, level, pos = self.autopilot, self.level, self.ship.pos
         if ap.mode == "down":
             if level.depth > ap.start_depth:         # ya hemos entrado
-                return self._arrive()
+                if not ap.full:
+                    return self._arrive()
+                self.autopilot = ap = Autopilot("down", level.depth, full=True)   # hasta el final: el siguiente
+                self._aim_dive()
             if level.depth != ap.target_depth:       # se salió por el camino: nuevo destino
                 self._aim_dive()
             target = ap.target()

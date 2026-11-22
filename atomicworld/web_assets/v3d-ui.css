@@ -106,3 +106,48 @@
   .v3d-group { border-right: 0; padding-right: 0; }
   .v3d-row { grid-template-columns: 8rem 1fr; }
 }
+
+/* ---------- Cuadrícula de botones: la misma en los cuatro visores (V3DControls.buttons) ----------
+   Filas de 3 botones iguales, en una sola pieza como el panel de un instrumento. En el móvil se
+   ocultan las teclas y el texto pasa a otra línea. */
+.v3d-grid {
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1px; margin-top: 0.6rem;
+  border: 1px solid var(--line); border-radius: 12px; overflow: hidden; background: var(--line);
+}
+.v3d-grid .v3d-btn, .v3d-grid .v3d-grid-fill {
+  width: 100%; min-width: 0; min-height: 2.9rem; margin: 0; border: 0; border-radius: 0;
+  background: var(--surface); box-shadow: none; justify-content: flex-start; padding: 0.55rem 0.75rem;
+}
+.v3d-grid .v3d-btn:hover { background: color-mix(in srgb, var(--line) 35%, var(--surface)); border-color: transparent; }
+.v3d-grid .v3d-btn:active { transform: none; }
+.v3d-grid .v3d-btn:focus-visible { outline-offset: -3px; }
+.v3d-grid .v3d-btn-icon { color: var(--muted); }
+.v3d-grid .v3d-btn-img { margin: -0.3rem 0 -0.3rem -0.2rem; }
+.v3d-grid .v3d-btn-label { flex: 1; text-align: left; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.v3d-grid .v3d-btn-state { flex: none; }
+.v3d-grid .v3d-key { border: 0; background: transparent; box-shadow: none; color: var(--muted); }
+.v3d-grid .v3d-btn[aria-pressed="true"] { background: var(--ink); color: var(--surface); box-shadow: none; }
+.v3d-grid .v3d-btn[aria-pressed="true"] .v3d-btn-icon,
+.v3d-grid .v3d-btn[aria-pressed="true"] .v3d-btn-state,
+.v3d-grid .v3d-btn[aria-pressed="true"] .v3d-key { color: var(--surface); }
+@media (max-width: 520px) {
+  .v3d-grid .v3d-btn-keys { display: none; }
+  .v3d-grid .v3d-btn { padding: 0.45rem 0.5rem; gap: 0.3rem; font-size: 0.8rem; }
+  .v3d-grid .v3d-btn-label { white-space: normal; overflow: visible; line-height: 1.15; }
+  .v3d-grid .v3d-btn-state { display: none; }
+}
+
+/* ---------- Fondo claro (B) en los visores de nave ----------
+   El lienzo se invierte (el negro del espacio pasa a blanco y los colores conservan su tono):
+   ver V3DControls.LIGHT_GLSL. Cuerpo humano dibuja su propio fondo claro. */
+.v3d-light canvas[data-v3d-invert] { filter: invert(1) hue-rotate(180deg); }
+/* Lo que se dibuja encima del lienzo (HTML) no se invierte: con fondo claro, colores para leerlo
+   sobre blanco. Las cajas oscuras del HUD siguen siendo oscuras. */
+.v3d-light .v3d-msg { color: #14213D; text-shadow: 0 0 4px #fff, 0 0 10px #fff; }
+.v3d-light .v3d-depth { background: rgba(60, 80, 110, 0.55); }
+.v3d-light .v3d-mark { color: #3D5373; }
+.v3d-light .v3d-mark::after { background: #3D5373; }
+.v3d-light .v3d-axis-x { color: #C62828; } .v3d-light .v3d-axis-y { color: #1B7F2A; } .v3d-light .v3d-axis-z { color: #1F4FC4; }
+.v3d-light .v3d-label { color: #14213D; text-shadow: 0 0 3px #fff; }
+/* En el móvil la cuadrícula ya tiene «Ayuda»: el botón flotante taparía la ficha de abajo */
+@media (max-width: 520px) { .v3d-helpchip { display: none; } }

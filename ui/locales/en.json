@@ -48,18 +48,18 @@
       "distance": "Distance to the object: {d}",
       "speed": "Speed: {v}/s  ×{mult}",
       "time": "Time: {t}",
-      "mode_didactic": "Mode: DIDACTIC  [Tab]",
-      "mode_realistic": "Mode: REALISTIC  [Tab]",
+      "mode_didactic": "Mode: DIDACTIC  [M]",
+      "mode_realistic": "Mode: REALISTIC  [M]",
       "help": [
-        "Click: capture mouse · Esc: release · WASD: move · Space/Ctrl: up/down · Q/E: roll · Shift: boost · Wheel: speed",
-        "Enter: go deeper · Backspace: go back up · N/P: next/previous element · [ ]: isotope · O: subshell · I: orbital · Tab: mode · L: language · H: help"
+        "W/S: forward/back · A/D: sideways · Space/C: up/down · Q/E: roll · Arrows: look · Shift: faster",
+        "Drag: turn the view · Right button or Shift+drag: move · Wheel: get closer · Double-click: go in",
+        "Enter: go down (Shift+Enter: all the way) · Backspace: go up · R: start view · O: subshell · I: orbital · N/P: element · [ ]: isotope",
+        "M: mode · B: light background · L: learn more · H: help · F: full screen · Esc: quit"
       ],
       "entering": "Entering: {name}",
       "leaving": "Back to: {name}",
-      "click": "Click to control the ship",
       "now_didactic": "DIDACTIC mode",
       "now_realistic": "REALISTIC mode",
-      "language": "Language: English",
       "autopilot_down": "Autopilot: going into the {target}",
       "autopilot_up": "Autopilot: going back up",
       "target_nucleus": "nucleus",
@@ -71,8 +71,16 @@
       "showing_subshell": "Subshell {name} (O: next)",
       "showing_all": "All the electrons",
       "showing_orbital": "Orbital {name} (I: next)",
-      "mode_plastic": "Mode: 3D PLASTIC  [Tab]",
-      "now_plastic": "3D PLASTIC mode: toy particles"
+      "mode_plastic": "Mode: 3D PLASTIC  [M]",
+      "now_plastic": "3D PLASTIC mode: toy particles",
+      "start": "Drag to look · W to move forward · H: help",
+      "not_here": "That key does nothing in this viewer",
+      "reset_done": "Start view",
+      "light_on": "Light background",
+      "light_off": "Dark background",
+      "more_on": "Learn more: on",
+      "more_off": "Learn more: hidden",
+      "autopilot_off": "Autopilot off"
     },
     "depth_marks": {
       "atom": "Atom  ~100 pm",
@@ -126,7 +134,7 @@
       "orbital_colors": "Each orbital in its own colour. I: one orbital at a time.",
       "plastic": [
         "Plastic mode: each green ball (e⁻) is an electron. They orbit as in Bohr's model (1913).",
-        "In reality they have no size and no path: they are probability clouds (Tab: other modes).",
+        "In reality they have no size and no path: they are probability clouds (M: other modes).",
         "In the centre, the nucleus with its protons (+) and neutrons (0), to scale: tiny."
       ]
     },

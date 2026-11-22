@@ -43,6 +43,7 @@ class Renderer:
             vertex_shader=(SHADERS / "lines.vert").read_text(),
             fragment_shader=(SHADERS / "lines.frag").read_text())
         self._sprites = None          # modo plástico (render/sprites.py): se crea al usarlo
+        self.light = False            # fondo claro (B): las bolas de plástico salen ya invertidas
 
     # ------------------------------------------------------------ modo plástico
     def _sprite_renderer(self):
@@ -63,7 +64,7 @@ class Renderer:
         acercarse a menos de near_fade radios (para poder entrar en un protón)."""
         if sprites.count == 0 or fade <= 0.001:
             return
-        self._sprite_renderer().draw(sprites, cam, fade, near_fade)
+        self._sprite_renderer().draw(sprites, cam, fade, near_fade, self.light)
 
     def begin(self, clear=(0.004, 0.006, 0.016)):
         self.ctx.clear(*clear, 1.0)

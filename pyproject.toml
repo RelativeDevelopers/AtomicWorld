@@ -29,4 +29,4 @@ include = ["atomicworld*"]
 
 [tool.setuptools.package-data]
 atomicworld = ["data/*.json", "data/names/*.json",
-               "web_assets/*.js", "web_assets/*.css", "web_assets/img/plastic/*.webp"]
+               "web_assets/*.json", "web_assets/*.js", "web_assets/*.css", "web_assets/img/plastic/*.webp"]

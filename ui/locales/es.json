@@ -48,18 +48,18 @@
       "distance": "Distancia al objeto: {d}",
       "speed": "Velocidad: {v}/s  ×{mult}",
       "time": "Tiempo: {t}",
-      "mode_didactic": "Modo: DIDÁCTICO  [Tab]",
-      "mode_realistic": "Modo: REALISTA  [Tab]",
+      "mode_didactic": "Modo: DIDÁCTICO  [M]",
+      "mode_realistic": "Modo: REALISTA  [M]",
       "help": [
-        "Clic: capturar ratón · Esc: soltar · WASD: mover · Espacio/Ctrl: subir/bajar · Q/E: girar · Shift: turbo · Rueda: velocidad",
-        "Enter: bajar un nivel · Retroceso: subir · N/P: elemento siguiente/anterior · [ ]: isótopo · O: subnivel · I: orbital · Tab: modo · L: idioma · H: ayuda"
+        "W/S: avanzar · A/D: a los lados · Espacio/C: subir/bajar · Q/E: girar · Flechas: mirar · Mayús: más rápido",
+        "Arrastrar: girar la vista · Botón derecho o Mayús+arrastrar: mover · Rueda: acercarte · Doble clic: entrar",
+        "Enter: bajar (Mayús+Enter: hasta el final) · Retroceso: subir · R: vista inicial · O: subnivel · I: orbital · N/P: elemento · [ ]: isótopo",
+        "M: modo · B: fondo claro · L: saber más · H: ayuda · F: pantalla completa · Esc: salir"
       ],
       "entering": "Entrando: {name}",
       "leaving": "Saliendo a: {name}",
-      "click": "Haz clic para controlar la nave",
       "now_didactic": "Modo DIDÁCTICO",
       "now_realistic": "Modo REALISTA",
-      "language": "Idioma: español",
       "autopilot_down": "Piloto automático: hacia el {target}",
       "autopilot_up": "Piloto automático: subiendo",
       "target_nucleus": "núcleo",
@@ -71,8 +71,16 @@
       "showing_subshell": "Subnivel {name} (O: siguiente)",
       "showing_all": "Todos los electrones",
       "showing_orbital": "Orbital {name} (I: siguiente)",
-      "mode_plastic": "Modo: PLÁSTICO 3D  [Tab]",
-      "now_plastic": "Modo PLÁSTICO 3D: partículas de juguete"
+      "mode_plastic": "Modo: PLÁSTICO 3D  [M]",
+      "now_plastic": "Modo PLÁSTICO 3D: partículas de juguete",
+      "start": "Arrastra para mirar · W para avanzar · H: ayuda",
+      "not_here": "Esa tecla no hace nada en este visor",
+      "reset_done": "Vista inicial",
+      "light_on": "Fondo claro",
+      "light_off": "Fondo oscuro",
+      "more_on": "Saber más: activado",
+      "more_off": "Saber más: oculto",
+      "autopilot_off": "Piloto automático apagado"
     },
     "depth_marks": {
       "atom": "Átomo  ~100 pm",
@@ -126,7 +134,7 @@
       "orbital_colors": "Cada orbital, de un color. I: los orbitales de uno en uno.",
       "plastic": [
         "Modo plástico: cada bola verde (e⁻) es un electrón. Giran como en el modelo de Bohr (1913).",
-        "En realidad no tienen tamaño ni trayectoria: son nubes de probabilidad (Tab: otros modos).",
+        "En realidad no tienen tamaño ni trayectoria: son nubes de probabilidad (M: otros modos).",
         "En el centro, el núcleo con sus protones (+) y neutrones (0), a escala real: diminuto."
       ]
     },

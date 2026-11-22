@@ -85,8 +85,9 @@ class SpriteRenderer:
 
     def __init__(self, ctx: moderngl.Context):
         self.ctx = ctx
+        from atomicworld.v3d_desktop import LIGHT_GLSL
         self.prog = ctx.program(vertex_shader=(SHADERS / "sprites.vert").read_text(),
-                                fragment_shader=(SHADERS / "sprites.frag").read_text())
+                                fragment_shader=(SHADERS / "sprites.frag").read_text().replace("// V3D_LIGHT", LIGHT_GLSL))
         corners = np.array([-1, -1, 1, -1, -1, 1, 1, 1], dtype="f4")
         self.quad = ctx.buffer(corners.tobytes())
         layers = [Image.open(p).convert("RGBA").resize((TEXTURE_SIZE, TEXTURE_SIZE), Image.LANCZOS)
@@ -97,7 +98,7 @@ class SpriteRenderer:
         self.texture.filter = moderngl.LINEAR_MIPMAP_LINEAR, moderngl.LINEAR
         self.texture.repeat_x = self.texture.repeat_y = False
 
-    def draw(self, sprites: SpriteSet, cam, fade: float, near_fade: float):
+    def draw(self, sprites: SpriteSet, cam, fade: float, near_fade: float, light: bool = False):
         ctx, p = self.ctx, self.prog
         # de atrás hacia delante: así la transparencia de los bordes (y del fundido) sale bien
         eye_z = sprites.data["p"] @ cam.view[2, :3] + cam.view[2, 3]
@@ -108,6 +109,7 @@ class SpriteRenderer:
         p["u_ball"].value = BALL_FRACTION
         p["u_near_fade"].value = float(near_fade)
         p["u_fade"].value = float(fade)
+        p["u_light"].value = 1.0 if light else 0.0
         p["u_tex"].value = 0
         self.texture.use(0)
 

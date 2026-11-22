@@ -50,7 +50,7 @@ Un vuelo en primera persona con tres niveles de zoom:
 | 3 · Nucleón | 0,1 fm | los quarks, el tubo de gluones y el "mar" de partículas |
 
 Puedes moverte libremente o dejar que el **piloto automático** te lleve de un nivel al siguiente.
-Hay tres modos (tecla **Tab**):
+Hay tres modos (tecla **M**):
 
 | Modo | Qué ves |
 |---|---|
@@ -120,7 +120,7 @@ python main.py
 ```
 
 La primera vez te pregunta el idioma (inglés, castellano o catalán) y lo recuerda. Se puede cambiar
-con la opción **5] Language · Idioma** del menú principal, o con la tecla **L** dentro del visor.
+con la opción **5] Language · Idioma** del menú principal (el visor 3D se abre en ese idioma).
 
 ## 🎮 Cómo se usa
 
@@ -136,19 +136,23 @@ python -m viewer O --mode plastic         # empezar en el modo plástico 3D
 
 ### Controles del visor
 
-| Tecla | Acción |
+Son las mismas teclas que en la web y que en los visores de DNAinvent (Microscopio 3D, Proteína 3D y
+Cuerpo humano): un estándar común, explicado en [docs/CONTROLES.md](docs/CONTROLES.md).
+
+| Tecla / ratón | Acción |
 |---|---|
-| **Clic** / **Esc** | capturar / soltar el ratón (Esc otra vez: salir) |
-| **W A S D** · **Espacio** / **Ctrl** | moverse · subir / bajar |
-| **Q** / **E** · **Shift** · **Rueda** | girar · turbo ×5 · ajustar velocidad |
-| **Enter** / **Retroceso** | 🚀 piloto automático: bajar al siguiente nivel / volver al anterior |
-| **N** / **P** | elemento siguiente / anterior |
-| **[** / **]** | isótopo anterior / siguiente |
+| **W** / **S** · **Rueda** | avanzar / retroceder · acercarte a saltos |
+| **A** / **D** · **Espacio** / **C** | a los lados · subir / bajar |
+| **Q** / **E** · **flechas** · **Mayús** | girar sobre ti · mirar · más rápido (mientras la mantienes) |
+| **Arrastrar** · **botón derecho** (o **Mayús** + arrastrar) | girar la vista · moverla (lo que arrastras sigue al ratón) |
+| **Enter** · **doble clic** / **Mayús + Enter** | 🚀 piloto automático: bajar al siguiente nivel / hasta el final |
+| **Retroceso** · **R** | subir al nivel anterior · vista inicial |
+| **M** · **Mayús + M** | modo de vista (y al revés) |
+| **B** · **L** | fondo claro u oscuro (se recuerda) · «Saber más» de lo que tienes delante |
+| **H** · **F** (o **F11**) · **Esc** | ayuda · pantalla completa · parar el piloto automático o salir |
+| **N** / **P** · **[** / **]** | elemento siguiente / anterior · isótopo anterior / siguiente |
 | **O** | ver los subniveles de uno en uno (4s → 3d → 3p…), con los ejes x, y, z |
 | **I** | con un subnivel p, d o f elegido: sus orbitales de uno en uno |
-| **Tab** · **Mayús + Tab** | modo: didáctico → realista → plástico 3D (y al revés) |
-| **L** | cambiar idioma |
-| **H** · **F11** | ayuda · pantalla completa |
 
 ## 💡 Consejos
 

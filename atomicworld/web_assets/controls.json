@@ -1,0 +1,76 @@
+{
+  "format": "relativedevelopers-v3d-controls",
+  "version": 1,
+  "about": "El estándar de controles de los visores 3D de Relative Developers: Átomo en 3D (AtomicWorld), Microscopio 3D, Proteína 3D y Cuerpo humano (DNAinvent), en la consola y en la web. Una tecla = una sola acción en los cuatro. Las teclas son KeyboardEvent.code; {\"text\": \"[\"} es un carácter (así funciona en cualquier teclado). Ver docs/CONTROLES.md.",
+  "held": {
+    "forward": ["KeyW"],
+    "back": ["KeyS"],
+    "left": ["KeyA"],
+    "right": ["KeyD"],
+    "up": ["Space"],
+    "down": ["KeyC"],
+    "roll_left": ["KeyQ"],
+    "roll_right": ["KeyE"],
+    "look_left": ["ArrowLeft"],
+    "look_right": ["ArrowRight"],
+    "look_up": ["ArrowUp"],
+    "look_down": ["ArrowDown"],
+    "turbo": ["ShiftLeft", "ShiftRight"]
+  },
+  "press": {
+    "go": ["Enter", "NumpadEnter"],
+    "go_back": ["Backspace"],
+    "reset": ["KeyR"],
+    "mode": ["KeyM"],
+    "light": ["KeyB"],
+    "more": ["KeyL"],
+    "help": ["KeyH"],
+    "fullscreen": ["KeyF", "F11"],
+    "escape": ["Escape"],
+    "subshell": ["KeyO"],
+    "orbital": ["KeyI"],
+    "next_element": ["KeyN"],
+    "previous_element": ["KeyP"],
+    "next_isotope": [{"text": "]"}],
+    "previous_isotope": [{"text": "["}],
+    "layout": ["KeyU"],
+    "side": ["KeyV"],
+    "isolate": ["KeyX"],
+    "all_layers": ["KeyT"]
+  },
+  "shift": {
+    "go": "go_full",
+    "mode": "mode_back"
+  },
+  "pointer": {
+    "drag": "rotate",
+    "drag_right": "pan",
+    "drag_shift": "pan",
+    "wheel": "zoom",
+    "double_click": "go",
+    "click": "pick"
+  },
+  "touch": {
+    "one_finger": "rotate",
+    "two_fingers": "pan",
+    "pinch": "zoom",
+    "double_tap": "go",
+    "tap": "pick"
+  },
+  "common": ["forward", "back", "left", "right", "up", "down", "roll_left", "roll_right",
+             "look_left", "look_right", "look_up", "look_down", "turbo",
+             "go", "go_back", "reset", "mode", "light", "more", "help", "fullscreen", "escape"],
+  "viewers": {
+    "atom3d": ["subshell", "orbital", "next_element", "previous_element", "next_isotope", "previous_isotope"],
+    "microscope": ["subshell", "orbital", "layout", "side"],
+    "protein3d": ["subshell", "orbital", "layout", "side"],
+    "body": ["isolate", "all_layers"]
+  },
+  "buttons": {
+    "about": "Cuadrícula de botones de la web, en filas de 3 y en este orden. null = hueco. La fila de layout/side solo sale al comparar dos proteínas. Proteína 3D es el Microscopio 3D con una proteína: mismas teclas.",
+    "atom3d": [["go", "go_back", "go_full"], ["mode", "light", "reset"], ["subshell", "orbital", null], ["more", "help", "fullscreen"]],
+    "microscope": [["go", "go_back", "go_full"], ["mode", "light", "reset"], ["subshell", "orbital", null], ["layout", "side", null], ["more", "help", "fullscreen"]],
+    "protein3d": [["go", "go_back", "go_full"], ["mode", "light", "reset"], ["subshell", "orbital", null], ["layout", "side", null], ["more", "help", "fullscreen"]],
+    "body": [["go", "go_back", "isolate"], ["mode", "light", "reset"], ["all_layers", null, null], ["more", "help", "fullscreen"]]
+  }
+}

@@ -48,18 +48,18 @@
       "distance": "Distància a l'objecte: {d}",
       "speed": "Velocitat: {v}/s  ×{mult}",
       "time": "Temps: {t}",
-      "mode_didactic": "Mode: DIDÀCTIC  [Tab]",
-      "mode_realistic": "Mode: REALISTA  [Tab]",
+      "mode_didactic": "Mode: DIDÀCTIC  [M]",
+      "mode_realistic": "Mode: REALISTA  [M]",
       "help": [
-        "Clic: capturar el ratolí · Esc: deixar-lo · WASD: moure · Espai/Ctrl: pujar/baixar · Q/E: girar · Shift: turbo · Roda: velocitat",
-        "Enter: baixar un nivell · Retrocés: pujar · N/P: element següent/anterior · [ ]: isòtop · O: subnivell · I: orbital · Tab: mode · L: idioma · H: ajuda"
+        "W/S: avançar · A/D: als costats · Espai/C: pujar/baixar · Q/E: girar · Fletxes: mirar · Maj: més ràpid",
+        "Arrossegar: girar la vista · Botó dret o Maj+arrossegar: moure · Roda: apropar-te · Doble clic: entrar",
+        "Retorn: baixar (Maj+Retorn: fins al final) · Retrocés: pujar · R: vista inicial · O: subnivell · I: orbital · N/P: element · [ ]: isòtop",
+        "M: mode · B: fons clar · L: saber-ne més · H: ajuda · F: pantalla completa · Esc: sortir"
       ],
       "entering": "Entrant: {name}",
       "leaving": "Sortint a: {name}",
-      "click": "Fes clic per controlar la nau",
       "now_didactic": "Mode DIDÀCTIC",
       "now_realistic": "Mode REALISTA",
-      "language": "Idioma: català",
       "autopilot_down": "Pilot automàtic: cap al {target}",
       "autopilot_up": "Pilot automàtic: pujant",
       "target_nucleus": "nucli",
@@ -71,8 +71,16 @@
       "showing_subshell": "Subnivell {name} (O: següent)",
       "showing_all": "Tots els electrons",
       "showing_orbital": "Orbital {name} (I: següent)",
-      "mode_plastic": "Mode: PLÀSTIC 3D  [Tab]",
-      "now_plastic": "Mode PLÀSTIC 3D: partícules de joguina"
+      "mode_plastic": "Mode: PLÀSTIC 3D  [M]",
+      "now_plastic": "Mode PLÀSTIC 3D: partícules de joguina",
+      "start": "Arrossega per mirar · W per avançar · H: ajuda",
+      "not_here": "Aquesta tecla no fa res en aquest visor",
+      "reset_done": "Vista inicial",
+      "light_on": "Fons clar",
+      "light_off": "Fons fosc",
+      "more_on": "Saber-ne més: activat",
+      "more_off": "Saber-ne més: amagat",
+      "autopilot_off": "Pilot automàtic apagat"
     },
     "depth_marks": {
       "atom": "Àtom  ~100 pm",
@@ -126,7 +134,7 @@
       "orbital_colors": "Cada orbital, d'un color. I: els orbitals d'un en un.",
       "plastic": [
         "Mode plàstic: cada bola verda (e⁻) és un electró. Giren com en el model de Bohr (1913).",
-        "En realitat no tenen mida ni trajectòria: són núvols de probabilitat (Tab: altres modes).",
+        "En realitat no tenen mida ni trajectòria: són núvols de probabilitat (M: altres modes).",
         "Al centre, el nucli amb els protons (+) i neutrons (0), a escala real: minúscul."
       ]
     },

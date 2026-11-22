@@ -55,9 +55,15 @@ const V3DPlastic = (() => {
   const FS = `#version 300 es
   precision highp float;
   precision highp sampler2DArray;
-  uniform sampler2DArray u_tex; uniform mat4 u_proj; uniform float u_ball, u_fade;
+  uniform sampler2DArray u_tex; uniform mat4 u_proj; uniform float u_ball, u_fade, u_light;
   in vec2 v_uv; in float v_layer; in float v_alpha; in vec3 v_eye_center; in float v_radius;
   out vec4 f_color;
+  // fondo claro: el lienzo se invierte con CSS (invert + hue-rotate 180°); las bolas se dibujan ya
+  // invertidas para que, al invertir la imagen, vuelvan a su color (como V3DControls.LIGHT_GLSL)
+  vec3 v3dLight(vec3 c) {
+    c = 1.0 - c;
+    return clamp(mat3(-0.574, 0.426, 0.426,  1.430, 0.430, 1.430,  0.144, 0.144, -0.856) * c, 0.0, 1.0);
+  }
   void main() {
     vec4 c = texture(u_tex, vec3(v_uv.x * 0.5 + 0.5, 0.5 - v_uv.y * 0.5, v_layer));
     float a = c.a * v_alpha * u_fade;
@@ -66,7 +72,7 @@ const V3DPlastic = (() => {
     float nz = sqrt(max(1.0 - dot(q, q), 0.0));
     vec4 clip = u_proj * vec4(v_eye_center + vec3(q, nz) * v_radius, 1.0);
     gl_FragDepth = clamp(clip.z / clip.w * 0.5 + 0.5, 0.0, 1.0);
-    f_color = vec4(c.rgb, a);
+    f_color = vec4(u_light > 0.5 ? v3dLight(c.rgb) : c.rgb, a);
   }`;
 
   function compile(gl) {
@@ -80,7 +86,7 @@ const V3DPlastic = (() => {
     gl.linkProgram(p);
     if (!gl.getProgramParameter(p, gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(p));
     const loc = {};
-    for (const name of ["u_view", "u_proj", "u_viewport_h", "u_ball", "u_near_fade", "u_tex", "u_fade"])
+    for (const name of ["u_view", "u_proj", "u_viewport_h", "u_ball", "u_near_fade", "u_tex", "u_fade", "u_light"])
       loc[name] = gl.getUniformLocation(p, name);
     return { p, loc, attr: (name) => gl.getAttribLocation(p, name) };
   }
@@ -114,7 +120,8 @@ const V3DPlastic = (() => {
       }).catch((error) => console.warn("V3DPlastic: no se pudieron cargar las imágenes", error));
     }
 
-    /** Dibuja un SpriteSet. cam: { view, proj (Float32Array en columnas), h }. */
+    /** Dibuja un SpriteSet. cam: { view, proj (Float32Array en columnas), h }.
+     *  Con this.light = true (fondo claro) las bolas salen ya invertidas: ver v3dLight. */
     draw(set, cam, fade, nearFade = 0) {
       if (!this.ready || !set.count || fade <= 0.001) return;
       const gl = this.gl, { p, loc } = this.prog, v = cam.view;
@@ -129,7 +136,7 @@ const V3DPlastic = (() => {
       gl.useProgram(p);
       gl.uniformMatrix4fv(loc.u_view, false, cam.view); gl.uniformMatrix4fv(loc.u_proj, false, cam.proj);
       gl.uniform1f(loc.u_viewport_h, cam.h); gl.uniform1f(loc.u_ball, BALL_FRACTION);
-      gl.uniform1f(loc.u_near_fade, nearFade); gl.uniform1f(loc.u_fade, fade);
+      gl.uniform1f(loc.u_near_fade, nearFade); gl.uniform1f(loc.u_fade, fade); gl.uniform1f(loc.u_light, this.light ? 1 : 0);
       gl.activeTexture(gl.TEXTURE0); gl.bindTexture(gl.TEXTURE_2D_ARRAY, this.texture); gl.uniform1i(loc.u_tex, 0);
 
       // cada nivel tiene sus unidades: profundidad nueva (solo en su mitad, con pantalla partida)
